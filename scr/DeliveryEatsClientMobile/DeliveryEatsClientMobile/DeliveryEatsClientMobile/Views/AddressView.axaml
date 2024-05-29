@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="DeliveryEatsClientMobile.Views.AddressView">
+    <Grid>
+        <DockPanel>
+            <!--Header-->
+            <Grid DockPanel.Dock="Top" Margin="15,0">
+                <Button VerticalAlignment="Center" HorizontalAlignment="Left" Background="Transparent">
+                    <avalonia:MaterialIcon Kind="ArrowBack" Height="25" Width="25"/>
+                </Button>
+                <TextBlock Text="Адреса" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+            </Grid>
+            <!--Body-->
+            <ScrollViewer>
+                <StackPanel Spacing="25">
+                    <ItemsControl Margin="15,0">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+        </DockPanel>
+    </Grid>
+</UserControl>

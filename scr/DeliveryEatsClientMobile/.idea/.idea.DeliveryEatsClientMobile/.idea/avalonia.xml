@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="DeliveryEatsClientMobile/DeliveryEatsClientMobile/App.axaml" value="DeliveryEatsClientMobile/DeliveryEatsClientMobile.Desktop/DeliveryEatsClientMobile.Desktop.csproj" />
+        <entry key="DeliveryEatsClientMobile/DeliveryEatsClientMobile/Resources/MainResourcesDictionary.axaml" value="DeliveryEatsClientMobile/DeliveryEatsClientMobile.Desktop/DeliveryEatsClientMobile.Desktop.csproj" />
+        <entry key="DeliveryEatsClientMobile/DeliveryEatsClientMobile/Styles/MainStyles.axaml" value="DeliveryEatsClientMobile/DeliveryEatsClientMobile.Desktop/DeliveryEatsClientMobile.Desktop.csproj" />
+        <entry key="DeliveryEatsClientMobile/DeliveryEatsClientMobile/Views/AddressEditView.axaml" value="DeliveryEatsClientMobile/DeliveryEatsClientMobile.Desktop/DeliveryEatsClientMobile.Desktop.csproj" />
+        <entry key="DeliveryEatsClientMobile/DeliveryEatsClientMobile/Views/AddressView.axaml" value="DeliveryEatsClientMobile/DeliveryEatsClientMobile.Desktop/DeliveryEatsClientMobile.Desktop.csproj" />
+        <entry key="DeliveryEatsClientMobile/DeliveryEatsClientMobile/Views/AllFilterView.axaml" value="DeliveryEatsClientMobile/DeliveryEatsClientMobile.Desktop/DeliveryEatsClientMobile.Desktop.csproj" />
+        <entry key="DeliveryEatsClientMobile/DeliveryEatsClientMobile/Views/AuthorizationView.axaml" value="DeliveryEatsClientMobile/DeliveryEatsClientMobile.Desktop/DeliveryEatsClientMobile.Desktop.csproj" />
+        <entry key="DeliveryEatsClientMobile/DeliveryEatsClientMobile/Views/BottomSheet.axaml" value="DeliveryEatsClientMobile/DeliveryEatsClientMobile.Desktop/DeliveryEatsClientMobile.Desktop.csproj" />
+        <entry key="DeliveryEatsClientMobile/DeliveryEatsClientMobile/Views/CartView.axaml" value="DeliveryEatsClientMobile/DeliveryEatsClientMobile.Desktop/DeliveryEatsClientMobile.Desktop.csproj" />
+        <entry key="DeliveryEatsClientMobile/DeliveryEatsClientMobile/Views/EditProfileView.axaml" value="DeliveryEatsClientMobile/DeliveryEatsClientMobile.Desktop/DeliveryEatsClientMobile.Desktop.csproj" />
+        <entry key="DeliveryEatsClientMobile/DeliveryEatsClientMobile/Views/FilterView.axaml" value="DeliveryEatsClientMobile/DeliveryEatsClientMobile.Desktop/DeliveryEatsClientMobile.Desktop.csproj" />
+        <entry key="DeliveryEatsClientMobile/DeliveryEatsClientMobile/Views/MainView.axaml" value="DeliveryEatsClientMobile/DeliveryEatsClientMobile.Desktop/DeliveryEatsClientMobile.Desktop.csproj" />
+        <entry key="DeliveryEatsClientMobile/DeliveryEatsClientMobile/Views/MainWindow.axaml" value="DeliveryEatsClientMobile/DeliveryEatsClientMobile.Desktop/DeliveryEatsClientMobile.Desktop.csproj" />
+        <entry key="DeliveryEatsClientMobile/DeliveryEatsClientMobile/Views/OrderView.axaml" value="DeliveryEatsClientMobile/DeliveryEatsClientMobile.Desktop/DeliveryEatsClientMobile.Desktop.csproj" />
+        <entry key="DeliveryEatsClientMobile/DeliveryEatsClientMobile/Views/OrdersView.axaml" value="DeliveryEatsClientMobile/DeliveryEatsClientMobile.Desktop/DeliveryEatsClientMobile.Desktop.csproj" />
+        <entry key="DeliveryEatsClientMobile/DeliveryEatsClientMobile/Views/ProductsView.axaml" value="DeliveryEatsClientMobile/DeliveryEatsClientMobile.Desktop/DeliveryEatsClientMobile.Desktop.csproj" />
+        <entry key="DeliveryEatsClientMobile/DeliveryEatsClientMobile/Views/ProfileEditView.axaml" value="DeliveryEatsClientMobile/DeliveryEatsClientMobile.Desktop/DeliveryEatsClientMobile.Desktop.csproj" />
+        <entry key="DeliveryEatsClientMobile/DeliveryEatsClientMobile/Views/ProfileView.axaml" value="DeliveryEatsClientMobile/DeliveryEatsClientMobile.Desktop/DeliveryEatsClientMobile.Desktop.csproj" />
+        <entry key="DeliveryEatsClientMobile/DeliveryEatsClientMobile/Views/SearchView.axaml" value="DeliveryEatsClientMobile/DeliveryEatsClientMobile.Desktop/DeliveryEatsClientMobile.Desktop.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

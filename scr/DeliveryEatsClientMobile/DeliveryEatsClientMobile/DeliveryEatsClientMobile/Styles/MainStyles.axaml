@@ -1,0 +1,210 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        <!--TextBlock-->
+        <Style Selector="TextBlock">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontFamily" Value="/Assets/Font/YandexSansDisplay-Regular.ttf"/>
+        </Style>
+        <!--TextBlock.productDetailsDemiBold-->
+        <Style Selector="TextBlock.productDetailsDemiBold">
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="FontWeight" Value="DemiBold"/>
+                <Setter Property="FontFamily" Value="/Assets/Font/YandexSansDisplay-Regular.ttf"/>
+        </Style>
+        <!--TextBlock.productDetailsDemiBoldGray-->
+        <Style Selector="TextBlock.productDetailsDemiBoldGray">
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Foreground" Value="{StaticResource GrayTextColor}"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontWeight" Value="DemiBold"/>
+                <Setter Property="FontFamily" Value="/Assets/Font/YandexSansDisplay-Regular.ttf"/>
+        </Style>
+        <!--TextBlock.productDetailsGray-->
+        <Style Selector="TextBlock.productDetailsGray">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontFamily" Value="/Assets/Font/YandexSansDisplay-Regular.ttf"/>
+        </Style>
+        <!--TextBox-->
+        <Style Selector="TextBox">
+                <Setter Property="FontFamily" Value="/Assets/Font/YandexSansDisplay-Regular.ttf"/>
+                <Setter Property="FontSize" Value="16"/>
+        </Style>
+        <!--TextBox.Search-->
+        <Style Selector="TextBox.search">
+                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="SelectionBrush" Value="{StaticResource GrayPressedBackgroundColor}"/>
+                <Setter Property="FontWeight" Value="DemiBold"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Background" Value="{StaticResource GrayBackgroundColor}"/>
+                <Setter Property="FontFamily" Value="/Assets/Font/YandexSansDisplay-Bold.ttf"/>
+        </Style>
+        <Style Selector="TextBox.search:focus  /template/Border#PART_BorderElement,
+                        TextBox.search:pointerover /template/Border#PART_BorderElement">
+                <Setter Property="Background" Value="{StaticResource GrayBackgroundColor}"/>
+                <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <!--TextBox.Authorization-->
+        <Style Selector="TextBox.authorization">
+                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="UseFloatingWatermark" Value="True"/>
+                <Setter Property="Padding" Value="20,15"/>
+                <Setter Property="SelectionBrush" Value="{StaticResource GrayPressedBackgroundColor}"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Background" Value="{StaticResource GrayBackgroundColor}"/>
+                <Setter Property="FontFamily" Value="/Assets/Font/YandexSansDisplay-Bold.ttf"/>
+        </Style>
+        <Style Selector="TextBox.authorization /template/ TextBlock#PART_FloatingWatermark">
+                <Setter Property="TextAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Foreground" Value="{StaticResource GrayTextColor}"/>
+                <Setter Property="Margin" Value="0,-19,0,0"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+        <Style Selector="TextBox.authorization /template/ TextBlock#PART_Watermark">
+                <Setter Property="FontSize" Value="20"/>
+        </Style>
+        <Style Selector="TextBox.authorization:focus  /template/Border#PART_BorderElement,
+                        TextBox.authorization:pointerover /template/Border#PART_BorderElement">
+                <Setter Property="Background" Value="{StaticResource GrayBackgroundColor}"/>
+                <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <!--Button-->
+        <Style Selector="Button">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontFamily" Value="/Assets/Font/YandexSansDisplay-Regular.ttf"/>
+        </Style>
+        <Style Selector="Button:pressed /template/ContentPresenter#PART_ContentPresenter,
+                        Button:focus /template/ContentPresenter#PART_ContentPresenter,
+                        Button:pointerover /template/ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <!--Button.Interactions-->
+        <Style Selector="Button.interactions">
+                <Setter Property="Background" Value="{StaticResource BackgroundColor}"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="CornerRadius" Value="15"/>
+        </Style>
+        <Style Selector="Button.interactions:pointerover /template/ContentPresenter#PART_ContentPresenter,
+                        Button.interactions:pressed /template/ContentPresenter#PART_ContentPresenter,
+                        Button.interactions:focus /template/ContentPresenter#PART_ContentPresenter,
+                        Button.interactions:disabled /template/ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="{StaticResource BackgroundColor}"/>
+        </Style>
+        <!--Button.InteractionsOrder-->
+        <Style Selector="Button.interactionsOrder">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="Button.interactionsOrder:pointerover /template/ContentPresenter#PART_ContentPresenter,
+                        Button.interactionsOrder:pressed /template/ContentPresenter#PART_ContentPresenter,
+                        Button.interactionsOrder:focus /template/ContentPresenter#PART_ContentPresenter,
+                        Button.interactionsOrder:disabled /template/ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <!--Button.InteractionsDetails-->
+        <Style Selector="Button.interactionsDetails">
+                <Setter Property="Background" Value="{StaticResource AccentColor}"/>
+                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="CornerRadius" Value="15"/>
+                <Setter Property="Margin" Value="0, 10"/>
+        </Style>
+        <Style Selector="Button.interactionsDetails:pointerover /template/ContentPresenter#PART_ContentPresenter,
+                        Button.interactionsDetails:pressed /template/ContentPresenter#PART_ContentPresenter,
+                        Button.interactionsDetails:focus /template/ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="{StaticResource AccentColor}"/>
+        </Style>
+        <Style Selector="Button.interactionsDetails:disabled /template/ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="{StaticResource DisableAccentColor}"/>
+        </Style>
+        <!--Button.Accent-->
+        <Style Selector="Button.accentButton">
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Padding" Value="0, 7.5"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Background" Value="{StaticResource AccentColor}"/>
+        </Style>
+        <Style Selector="Button.accentButton:pointerover /template/ContentPresenter#PART_ContentPresenter,
+                        Button.accentButton:pressed /template/ContentPresenter#PART_ContentPresenter,
+                        Button.accentButton:focus /template/ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="{StaticResource AccentColor}"/>
+                <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <!--Button.Product-->
+        <Style Selector="Button.product">
+                <Setter Property="Background" Value="{StaticResource GrayBackgroundColor}"/>
+                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                <Setter Property="Width" Value="115"/>
+                <Setter Property="MaxHeight" Value="250"/>
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="CornerRadius" Value="20"/>
+        </Style>
+        <Style Selector="Button.product:pressed /template/ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="{StaticResource GrayPressedBackgroundColor}"/>
+        </Style>
+        <Style Selector="Button.product:pointerover /template/ContentPresenter#PART_ContentPresenter,
+                        Button.product:focus /template/ContentPresenter#PART_ContentPresenter,
+                        Button.product:disabled /template/ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="{StaticResource GrayBackgroundColor}"/>
+        </Style>
+        <!--Button.Search-->
+        <Style Selector="Button.search">
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Background" Value="{StaticResource GrayBackgroundColor}"/>
+                <Setter Property="FontFamily" Value="/Assets/Font/YandexSansDisplay-Bold.ttf"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="Button.search:pointerover /template/ContentPresenter#PART_ContentPresenter,
+                        Button.search:pressed /template/ContentPresenter#PART_ContentPresenter,
+                        Button.search:focus /template/ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="{StaticResource GrayPressedBackgroundColor}"/>
+                <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <!--Border.Lines-->
+        <Style Selector="Border.lines">
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="CornerRadius" Value="5"/>
+                <Setter Property="BorderBrush" Value="{StaticResource LinesColorBrush}"/>
+        </Style>
+        <!--ToggleButton-->
+        <Style Selector="ToggleButton">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Height" Value="{TemplateBinding Height}"/>
+                <Setter Property="Width" Value="{TemplateBinding Width}"/>
+        </Style>
+        <Style Selector="ToggleButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style Selector="ToggleButton:checked/template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Height" Value="{TemplateBinding Height}"/>
+                <Setter Property="Width" Value="{TemplateBinding Width}"/>
+        </Style>
+</Styles>

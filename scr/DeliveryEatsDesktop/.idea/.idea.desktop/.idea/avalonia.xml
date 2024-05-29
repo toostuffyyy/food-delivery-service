@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="App.axaml" value="desktop.csproj" />
+        <entry key="Resources/MainResourcesDictionary.axaml" value="desktop.csproj" />
+        <entry key="Styles/MainStyle.axaml" value="desktop.csproj" />
+        <entry key="Views/AddEditWindow.axaml" value="desktop.csproj" />
+        <entry key="Views/CatalogEmployeesView.axaml" value="desktop.csproj" />
+        <entry key="Views/CatalogOrdersView.axaml" value="desktop.csproj" />
+        <entry key="Views/EmployeeWindow.axaml" value="desktop.csproj" />
+        <entry key="Views/LoginWindow.axaml" value="desktop.csproj" />
+        <entry key="Views/ReportView.axaml" value="desktop.csproj" />
+        <entry key="Views/SplashWindow.axaml" value="desktop.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

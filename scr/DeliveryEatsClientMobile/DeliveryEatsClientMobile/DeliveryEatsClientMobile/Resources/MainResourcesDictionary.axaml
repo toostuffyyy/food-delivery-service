@@ -1,0 +1,25 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:DeliveryEatsClientMobile.Converters">
+    <!--Color-->
+    <SolidColorBrush Color="#7992E8" x:Key="AccentColor" />
+    <SolidColorBrush Color="#5e71b4" x:Key="DisableAccentColor" />
+    <SolidColorBrush Color="#000000" x:Key="ForegroundColor" />
+    <SolidColorBrush Color="#6C6C6C" x:Key="GrayTextColor" />
+    <SolidColorBrush Color="#6f6f6d" x:Key="LightGrayTextColor" />
+    <SolidColorBrush Color="#f5f4f2" x:Key="GrayBackgroundColor" />
+    <SolidColorBrush Color="#e6e6e6" x:Key="GrayPressedBackgroundColor" />
+    <SolidColorBrush Color="#FFFFFF" x:Key="BackgroundColor" />
+    <SolidColorBrush Color="#7aC6C6C6" x:Key="LinesColorBrush" />
+    <SolidColorBrush Color="#FFFFFF" x:Key="WhiteTextColor" />
+    <SolidColorBrush Color="#E35E45" x:Key="RedTextColor" />
+    <SolidColorBrush Color="#F70742" x:Key="ErrorColor" />
+    <!--Converters-->
+    <converters:ImageNameToFullNameConverter x:Key="imageNameConv" />
+    <converters:ProductCountToBoolConverter x:Key="prodCountConv" />
+    <converters:ProductEnabledConverter x:Key="prodEnabledConv" />
+    <converters:ProductCountButtonVisibleConverter x:Key="productCountVisibleConv" />
+    <converters:ExpirationDateConverter x:Key="expDateConv" />
+    <converters:BoolToColorConverter x:Key="boolColorConv" />
+    <converters:BoolToColorConverter x:Key="charToBoolConv" />
+</ResourceDictionary>

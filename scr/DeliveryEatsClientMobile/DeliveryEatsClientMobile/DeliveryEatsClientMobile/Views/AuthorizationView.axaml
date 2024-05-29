@@ -1,0 +1,97 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:DeliveryEatsClientMobile.ViewModels"
+             xmlns:mtc="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:ayl="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="900"
+             x:DataType="viewModels:AuthorizationViewModel"
+             x:Class="DeliveryEatsClientMobile.Views.AuthorizationView">
+    <!--Body-->
+    <Grid RowDefinitions="Auto, *" Margin="15, 10">
+        <!--Top-->
+        <Grid Margin="0, 5">
+            <Button Classes="search" Command="{Binding GoBackCommand}" 
+                    HorizontalAlignment="Left" VerticalAlignment="Center">
+                <mtc:MaterialIcon Kind="ArrowLeft" Width="25" Height="25"/>
+            </Button>
+            <TextBlock Text="{Binding TextView}" FontSize="22" />
+        </Grid>
+        <!--Authorization Login-->
+        <StackPanel Grid.Row="1" VerticalAlignment="Center" Spacing="50"
+                    IsVisible="{Binding !InsertLogin}">
+            <ToggleButton x:Name="ToggleButton" HorizontalAlignment="Stretch" 
+                          IsChecked="{Binding IsCheckedEmail, Mode=TwoWay}">
+                <ToggleButton.Template>
+                    <ControlTemplate>
+                        <Border CornerRadius="10" Padding="7.5"
+                                Background="{StaticResource GrayBackgroundColor}">
+                            <Grid ColumnDefinitions="*,*">
+                                <Border CornerRadius="10" Padding="7.5"
+                                        Background="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton}, 
+                                        Path=IsChecked, Converter={StaticResource boolColorConv}}">
+                                    <TextBlock Text="Почта" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                               FontSize="20"/>
+                                </Border>
+                                <Border Grid.Column="1" CornerRadius="10" Padding="7.5"
+                                        Background="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton}, 
+                                        Path=!IsChecked, Converter={StaticResource boolColorConv}}">
+                                    <TextBlock Text="Телефон" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                               FontSize="20" />
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </ToggleButton.Template>
+            </ToggleButton>
+            <TextBox Classes="authorization" Watermark="Почта"
+                     Text="{Binding Client.Email}"
+                     IsVisible="{Binding IsChecked, ElementName=ToggleButton}"/>
+            <MaskedTextBox Classes="authorization" Watermark="Телефон" 
+                           Text="{Binding Client.PhoneNumber}"
+                           Mask="+7 000 000 00 00" PromptChar="ㅤ" GotFocus="InputElement_OnGotFocus"
+                           IsVisible="{Binding !IsChecked, ElementName=ToggleButton}"/>
+            <Button Classes="accentButton" Content="Войти" Width="250" FontSize="20"
+                    Command="{Binding CheckClientCommand}"/>
+        </StackPanel>
+        <!--Authorization Password-->
+        <Grid Row="1" IsVisible="{Binding InsertLogin}">
+            <!--Client Exists-->
+            <StackPanel Spacing="50" VerticalAlignment="Center" IsVisible="{Binding IsCheckedClient}">
+                <TextBox Classes="authorization" Watermark="Пароль" PasswordChar="⋅"
+                         Text="{Binding Client.Password}"/>
+                <Button Classes="accentButton" Content="Войти" Width="250" FontSize="20"
+                        Command="{Binding LoginCommand}"/>
+            </StackPanel>
+            <!--Client NotExists-->
+            <StackPanel Spacing="35" VerticalAlignment="Top" Margin="0,25" IsVisible="{Binding !IsCheckedClient}">
+                <StackPanel Spacing="25">
+                    <TextBlock Text="Персональная информация" FontSize="22" />
+                    <TextBox Classes="authorization" Watermark="Ваше имя" Text="{Binding Client.Name}"/>
+                    <TextBox Classes="authorization" Watermark="Пароль" PasswordChar="⋅"
+                             Text="{Binding Client.Password}"/>
+                </StackPanel>
+                <StackPanel Spacing="25">
+                    <TextBlock Text="Адрес" FontSize="22" />
+                    <Grid ColumnDefinitions="*,*">
+                        <TextBox Classes="authorization" Watermark="Улица*" Margin="0,0,7.5,0"
+                                 Text="{Binding Client.Addresses[0].Street}"/>
+                        <TextBox Grid.Column="1" Classes="authorization" Watermark="Дом*" HorizontalContentAlignment="Center"
+                                 Text="{Binding Client.Addresses[0].House}" Margin="7.5,0,0,0"/>
+                    </Grid>
+                    <Grid ColumnDefinitions="*,*,*">
+                        <TextBox Classes="authorization" Watermark="Квартира" HorizontalContentAlignment="Center"
+                                 Text="{Binding Client.Addresses[0].Apartment}" Margin="0,0,15,0"/>
+                        <TextBox Grid.Column="1" Classes="authorization" Watermark="Домофон" HorizontalContentAlignment="Center"
+                                 Text="{Binding Client.Addresses[0].Intercom}"/>
+                        <TextBox Grid.Column="2" Classes="authorization" Watermark="Этаж" HorizontalContentAlignment="Center"
+                                 Text="{Binding Client.Addresses[0].Floor}" Margin="15,0,0,0"/>
+                    </Grid>
+                </StackPanel>
+                <Button Classes="accentButton" Content="Создать" Width="250" FontSize="20"
+                        Command="{Binding AddClientCommand}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

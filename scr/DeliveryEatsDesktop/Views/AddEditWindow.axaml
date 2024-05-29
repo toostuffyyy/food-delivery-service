@@ -1,0 +1,66 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:viewModels="using:desktop.ViewModels"
+        xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+        Width="800" Height="450" CanResize="False"
+        WindowStartupLocation="CenterOwner" Focusable="True" 
+        Background="{StaticResource BackgroundColor}"
+        x:DataType="viewModels:AddEditViewModel"
+        x:Class="desktop.Views.AddEditWindow"
+        Icon="/Assets/Logo.ico">
+	<Grid ColumnDefinitions="250, *" RowDefinitions="50, *" Margin="15">
+		<TextBlock Grid.ColumnSpan="2" Foreground="{StaticResource AccentColor}" 
+		           FontWeight="Bold" FontSize="25" HorizontalAlignment="Center"
+		           Text="{Binding Title}" />
+		<StackPanel Grid.Row="1" Orientation="Vertical" Spacing="15">
+			<Border BorderThickness="0" ClipToBounds="True" 
+			        HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="15"
+			        Background="White" Height="250" Width="200">
+				<asyncImageLoader:AdvancedImage Background="Transparent" Stretch="UniformToFill"
+												Source="{Binding EmployeeEdit.ImagePath, Converter={StaticResource ImageConv}, 
+												TargetNullValue='/Assets/UserTemp.jpg'}">
+					<asyncImageLoader:AdvancedImage.ContextFlyout>
+						<MenuFlyout>
+							<MenuItem Header="Загрузить новое изображение" 
+							          CommandParameter="image" 
+							          Command="{Binding 
+							          ChangeImageProductCommand}"/>
+						</MenuFlyout>
+					</asyncImageLoader:AdvancedImage.ContextFlyout>
+				</asyncImageLoader:AdvancedImage>
+			</Border>
+			<Button Classes="accentButton" Width="200" Height="35"
+			        HorizontalAlignment="Center" VerticalAlignment="Center"
+			        Content="Изменить изображение" Command="{Binding ChangeImageProductCommand}"/>
+		</StackPanel>
+		
+		<StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Top" Spacing="10">
+			<StackPanel Orientation="Horizontal" Spacing="15">
+				<ComboBox Classes="addEdit" PlaceholderText="Должность*" ItemsSource="{Binding EmployeeRole}" 
+				          SelectedValueBinding="{Binding Id}" SelectedValue="{Binding EmployeeEdit.RoleId}" 
+				          DisplayMemberBinding="{Binding Name}" />
+				<TextBox Classes="addEdit" Tag="Фамилия*" Text="{Binding EmployeeEdit.Surname}"/>
+			</StackPanel>
+			
+			<StackPanel Orientation="Horizontal" Spacing="15">
+				<TextBox Classes="addEdit" Tag="Имя*" Text="{Binding EmployeeEdit.Name}"/>
+				<TextBox Classes="addEdit" Tag="Отчество*" Text="{Binding EmployeeEdit.Patronymic}"/>
+			</StackPanel>
+			
+			<StackPanel Orientation="Horizontal" Spacing="15" >
+				<TextBox Classes="addEdit" Tag="Номер телефона*" Text="{Binding EmployeeEdit.PhoneNumber}"/>
+				<TextBox Classes="addEdit" Tag="Email*" Text="{Binding EmployeeEdit.Email}"/>
+			</StackPanel>
+			
+			<StackPanel Orientation="Horizontal" Spacing="15" >
+				<TextBox Classes="addEdit" Tag="Логин" Text="{Binding EmployeeEdit.Login}"/>
+				<TextBox Classes="addEdit" Tag="Пароль" Text="{Binding EmployeeEdit.Password}" PasswordChar="⋅"/>
+			</StackPanel>
+		</StackPanel>
+		
+		<Button Grid.RowSpan="2" Grid.ColumnSpan="2"
+		        Classes="accentButton" Width="150" Height="35"
+		        HorizontalAlignment="Center" VerticalAlignment="Bottom"
+				Content="Сохранить" Command="{Binding SaveCommand}"/>
+	</Grid>
+</Window>

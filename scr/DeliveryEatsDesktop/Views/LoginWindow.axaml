@@ -1,0 +1,68 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:progRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
+		xmlns:vm="clr-namespace:desktop.ViewModels"
+		xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+		x:DataType="vm:LoginViewModel" x:Class="desktop.Views.LoginWindow"
+        mc:Ignorable="d" d:DesignWidth="1440" d:DesignHeight="1024"
+		Background="{StaticResource	BackgroundColor}" WindowStartupLocation="CenterScreen"
+		CanResize="False" Icon="/Assets/Logo.ico" Title="Авторизация">
+	<Grid Width="500" Height="550">
+		<Border CornerRadius="50" 
+		        BoxShadow="0 0 10 0 #FFFFFF"
+		        Background="White">
+			<StackPanel VerticalAlignment="Center" Spacing="35">
+				<StackPanel>
+					<TextBlock Text="FOOD" FontSize="75" Width="250"
+					           Margin="0,0,0,-5" FontWeight="Bold"
+					           Foreground="{StaticResource AccentColor}"
+					           TextAlignment="Center" FontFamily="{StaticResource	RobotoBold}"/>
+					<TextBlock Text="DELIVERY" FontSize="45" Margin="0,-5,0,0"
+					           FontWeight="Bold" Foreground="{StaticResource AccentColor}"
+					           TextAlignment="Center" FontFamily="{StaticResource	RobotoBold}"/>
+				</StackPanel>
+				
+				<StackPanel Spacing="10">
+					<TextBox Classes="Authorization" Watermark="Логин" Text="{Binding AuthorizationData.Login}" 
+					         FontFamily="{StaticResource RobotoLight}">
+						<TextBox.InnerLeftContent>
+							<avalonia:MaterialIcon Kind="Key" Height="22.5" Width="22.5" Margin="15,0,0,0" />
+						</TextBox.InnerLeftContent>
+					</TextBox>
+
+					<TextBox Classes="Authorization" x:Name="passwordTextBox" Watermark="Пароль" 
+					         Text="{Binding AuthorizationData.Password}" PasswordChar="⋅">
+						<TextBox.InnerLeftContent>
+							<avalonia:MaterialIcon Kind="Lock" Height="22.5" Width="22.5" Margin="15,0,0,0" />
+						</TextBox.InnerLeftContent>
+						<TextBox.InnerRightContent>
+							<ToggleButton IsChecked="{Binding $parent[TextBox].PasswordChar, Converter={StaticResource CharToBoolConv}}">
+								<Panel Margin="5, 0">
+									<avalonia:MaterialIcon Kind="Visibility" Height="22.5" Width="22.5" 
+									                       IsVisible="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton}, 
+															Path=IsChecked}" Margin="0,0,15,0"
+									                       Foreground="{Binding Foreground, ElementName=passwordTextBox}"/>
+									<avalonia:MaterialIcon Kind="VisibilityOff" Height="22.5" Width="22.5"
+									                       IsVisible="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton}, 
+															Path=!IsChecked}" Margin="0,0,15,0"
+									                       Foreground="{Binding Foreground, ElementName=passwordTextBox}"/>
+								</Panel>
+							</ToggleButton>
+						</TextBox.InnerRightContent>
+					</TextBox>
+					
+					<Button Classes="Login" Content="Войти"
+					        Width="375" Height="75"
+							Command="{Binding Login}"/>
+				</StackPanel>
+			</StackPanel>
+		</Border>
+		<progRing:ProgressRing Width="75" Height="75"
+		                       HorizontalAlignment="Center" VerticalAlignment="Center"
+		                       Foreground="{StaticResource AccentColor}"
+		                       IsActive="{Binding IsLogin}"
+		                       IsVisible="{Binding IsLogin}"/>
+	</Grid>
+</Window>

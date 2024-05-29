@@ -1,0 +1,230 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="using:desktop.ViewModels"
+             xmlns:material="using:Material.Icons.Avalonia"
+			 xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+			 x:DataType="vm:CatalogOrdersViewModel" mc:Ignorable="d"
+			 d:DesignWidth="800" d:DesignHeight="450"
+             x:CompileBindings="False" x:Class="desktop.Views.CatalogOrdersView">
+	
+	<Grid ColumnDefinitions="450, *" RowDefinitions="*, 50" Margin="0,25,25,25">
+		<DockPanel>
+			<StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="15" HorizontalAlignment="Center">
+				<!--Search-->
+				<Border Width="300" Height="35" Classes="Search">
+					<TextBox Classes="Search" Margin="10,0" Text="{Binding OwnerParameters.SearchString}" Watermark="Номер заказа и улица">
+						<TextBox.InnerLeftContent>
+							<material:MaterialIconExt Size="20" Kind="Magnify"/>
+						</TextBox.InnerLeftContent>
+					</TextBox>
+				</Border>
+				<!--Filter-->
+				<Border Classes="Search">
+					<SplitButton Classes="filter" CornerRadius="15" Background="White">
+						<SplitButton.Content>
+							<material:MaterialIconExt Size="25" Kind="FilterCogOutline" />
+						</SplitButton.Content>
+						<SplitButton.Flyout>
+							<Flyout FlyoutPresenterClasses="filter">
+								<ScrollViewer Height="450" Width="350" VerticalScrollBarVisibility="Hidden">
+									<StackPanel Orientation="Vertical">
+										<TextBlock Text="Сортировка" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" 
+										           Foreground="{StaticResource AccentColor}" />
+										<Rectangle Height="1" Fill="Black" Margin="0,10"/>
+										<ItemsControl ItemsSource="{Binding SortElements}"
+										              ItemTemplate="{StaticResource sortTemplate}">
+											<ItemsControl.ItemsPanel>
+												<ItemsPanelTemplate>
+													<WrapPanel Orientation="Horizontal"/>
+												</ItemsPanelTemplate>
+											</ItemsControl.ItemsPanel>
+										</ItemsControl>
+										
+										<TextBlock Text="Фильтрация" Margin="0,15,0,0" HorizontalAlignment="Center" FontSize="16" 
+										           FontWeight="Bold" Foreground="{StaticResource AccentColor}"/>
+										<Rectangle Height="1" Fill="Black" Margin="0,10"/>
+										<ItemsControl ItemsSource="{Binding Filters}"
+										              ItemTemplate="{StaticResource filterCategoryTemplate}">
+											<ItemsControl.ItemsPanel>
+												<ItemsPanelTemplate>
+													<StackPanel Orientation="Vertical" Spacing="20"/>
+												</ItemsPanelTemplate>
+											</ItemsControl.ItemsPanel>
+										</ItemsControl>
+										
+										<TextBlock Text="Количество элементов на странице" 
+										           HorizontalAlignment="Center"
+										           FontWeight="Bold" 
+										           Foreground="{StaticResource AccentColor}"
+										           FontSize="16"
+										           Margin="0,15,0,0"/>
+										<Rectangle Height="1" Fill="Black" Margin="0,10"/>
+										<StackPanel Orientation="Horizontal" 
+										            HorizontalAlignment="Center" 
+										            Spacing="20"
+										            VerticalAlignment="Center">
+											<ComboBox Background="White"
+											          SelectedValue="{Binding OwnerParameters.SizePage}" 
+											          ItemsSource="{Binding PageCounts}" 
+											          Classes="pagination"/>
+											<TextBlock Text="элементов"
+											           VerticalAlignment="Center"
+											           TextAlignment="Center"
+											           FontSize="16" />
+										</StackPanel>
+									</StackPanel>
+								</ScrollViewer>
+							</Flyout>
+						</SplitButton.Flyout>
+					</SplitButton>
+				</Border>
+			</StackPanel>
+			<!--ListOrders-->
+			<ListBox Classes="catalog" ItemsSource="{Binding Orders}" SelectedItem="{Binding SelectedOrder}" 
+			         ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" 
+			         AutoScrollToSelectedItem="True" HorizontalAlignment="Center" Margin="0,7.5" Background="Transparent">
+				<ListBox.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel Orientation="Vertical"/>
+					</ItemsPanelTemplate>
+				</ListBox.ItemsPanel>
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<Border BoxShadow="0 0 15 0 LightGray" Margin="7.5" Width="385" Height="75"
+						        CornerRadius="15" Background="White">
+							<Grid ColumnDefinitions="120, *, 75" Margin="15">
+								<StackPanel VerticalAlignment="Center" Spacing="5">
+									<TextBlock Text="{Binding Id, StringFormat={}№{0}}" FontSize="16"/>
+									<TextBlock Text="{Binding Status}" Foreground="{StaticResource AccentColor}" FontWeight="Bold" FontSize="16"/>
+								</StackPanel>
+								<StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="5">
+									<TextBlock Text="{Binding StartDateTime, StringFormat={}{0:dd.MM.yy HH:mm}}" FontSize="16"/>
+									<TextBlock Text="{Binding Address}" FontSize="16" MaxWidth="175"/>
+								</StackPanel>
+								<StackPanel Grid.Column="2" VerticalAlignment="Center">
+									<TextBlock Text="{Binding Sum,StringFormat={}{0:N0}₽}" HorizontalAlignment="Center" FontSize="18"/>
+								</StackPanel>
+							</Grid>
+							<Border.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="Удалить" 
+											  Command="{Binding $parent[UserControl].DataContext.DeleteOrderCommand}"
+									          CommandParameter="{Binding Id}" />
+								</ContextMenu>
+							</Border.ContextMenu>
+						</Border>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</DockPanel>
+		<!--Pagination menu-->
+		<Border Grid.Row="1" Background="White" CornerRadius="15" Padding="7.5" 
+		        Margin="0, 10, 0,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+			<StackPanel Orientation="Horizontal" Spacing="25">
+				<Button Classes="pagination" Command="{Binding GoFirstPage}" >
+					<material:MaterialIconExt Size="25" Kind="FirstPage"/>
+				</Button>
+				
+				<Button Classes="pagination" Command="{Binding PreviousPage}" >
+					<StackPanel Orientation="Horizontal">
+						<material:MaterialIconExt Size="25" Kind="NavigateBefore"/>
+						<TextBlock Text="Назад" VerticalAlignment="Center"/>
+					</StackPanel>
+				</Button>
+				
+				<TextBlock VerticalAlignment="Center" FontSize="16">
+					<TextBlock.Text>
+						<MultiBinding StringFormat="{}{0}  из  {1}">
+							<Binding Path="OwnerParameters.PageNumber"/>
+							<Binding Path="CountPage"/>
+						</MultiBinding>
+					</TextBlock.Text>
+				</TextBlock>
+				
+				<Button Classes="pagination" Command="{Binding NextPage}" >
+					<StackPanel Orientation="Horizontal">
+						<TextBlock VerticalAlignment="Center" Text="Вперед"/>
+						<material:MaterialIconExt Size="25" Kind="NavigateNext"/>
+					</StackPanel>
+				</Button>
+				
+				<Button Classes="pagination" Command="{Binding GoLastPage}">
+					<material:MaterialIconExt Size="25" Kind="LastPage" />
+				</Button>
+			</StackPanel>
+		</Border>
+		<!--OrderDetails-->
+		<Border Grid.RowSpan="2" Grid.Column="1" CornerRadius="15" Background="White">
+			<ScrollViewer VerticalScrollBarVisibility="Hidden">
+				<StackPanel IsVisible="{Binding !IsLoadingOrderDetails}" Margin="50,25" Orientation="Vertical" Spacing="10">
+					<TextBlock Text="{Binding SelectedOrderDetails.Id, StringFormat={}Заказ № {0}}" 
+					           Foreground="{StaticResource AccentColor}" HorizontalAlignment="Left"
+					           TextAlignment="Center" FontSize="30" FontWeight="SemiBold"/>
+					<StackPanel Orientation="Vertical">
+						<Border Classes="Lines" />
+						<TextBlock Text="Состав заказа" Foreground="{StaticResource GrayTextColor}" 
+						           FontSize="18" Margin="20,0" FontWeight="Bold"/>
+					</StackPanel>
+					
+					<ListBox Classes="orderDetails" ItemsSource="{Binding SelectedOrderDetails.OrderItems}">
+						<ListBox.ItemsPanel>
+							<ItemsPanelTemplate>
+								<StackPanel Orientation="Vertical" />
+							</ItemsPanelTemplate>
+						</ListBox.ItemsPanel>
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<Border BoxShadow="0 0 5 0 Gray" Height="50" CornerRadius="15" Margin="15, 0" Padding="15, 0"> 
+									<Grid ColumnDefinitions="Auto, Auto, *, Auto, Auto, Auto">
+										<Border ClipToBounds="True" Width="45" Height="45" CornerRadius="5" Margin="15, 0">
+											<asyncImageLoader:AdvancedImage Stretch="UniformToFill"
+											                                Source="{Binding Product.ImagePath, 
+											                                Converter={StaticResource ImageConv}, TargetNullValue='/Assets/ProductTemp.png'}"/>
+										</Border>
+										<TextBlock Grid.Column="1" Text="{Binding Product.Name}" Classes="OrderDetails" Margin="25, 0" />
+										<TextBlock Grid.Column="3" Text="{Binding Product.Price, StringFormat={}{0:N0}₽}" Classes="OrderDetails" Margin="25, 0"/>
+										<TextBlock Grid.Column="4" Text="{Binding Quantity, StringFormat={}{0} шт}" Classes="OrderDetails" Margin="25, 0"/>
+										<TextBlock Grid.Column="5" Text="{Binding SumProduct, StringFormat={}{0:N0}₽}" Classes="OrderDetails" Margin="25, 0"/>
+									</Grid>
+								</Border>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+					<Border Classes="Lines"/>
+					<StackPanel Orientation="Vertical" Margin="20,0" Spacing="25">
+						<StackPanel Orientation="Horizontal" Spacing="25">
+							<TextBlock Text="Адрес:" Classes="OrderDetails"/>
+							<TextBlock Text="{Binding SelectedOrderDetails.Address}" Classes="OrderDetails"/>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Spacing="25">
+							<TextBlock Text="Статус:" Classes="OrderDetails"/>
+							<TextBlock Text="{Binding SelectedOrderDetails.Status}" Classes="OrderDetails"/>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Spacing="25">
+							<TextBlock Text="Дата:" Classes="OrderDetails"/>
+							<TextBlock Text="{Binding SelectedOrderDetails.StartDateTime}" Classes="OrderDetails"/>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Spacing="25">
+							<TextBlock Text="Сумма:" Classes="OrderDetails"/>
+							<TextBlock Text="{Binding SelectedOrder.Sum, StringFormat={}{0:N0}₽}" Classes="OrderDetails"/>
+						</StackPanel>
+					</StackPanel>
+					<Grid Margin="100,15" IsVisible="{Binding IsVisibleOrderButton}">
+						<Button Classes="OrderDetails"
+						        Content="Отменить"
+						        Command="{Binding CancelStatusOrder}"
+						        Margin="0,0,250,0"
+						        Background="#B12020"/>
+						<Button Classes="OrderDetails"
+						        Content="{Binding ContentOrderButton}"
+						        Command="{Binding UpdateStatusOrder}"
+						        Margin="250,0,0,0"
+						        Background="#56A232"/>
+					</Grid>
+				</StackPanel>
+			</ScrollViewer>
+		</Border>
+	</Grid>
+</UserControl>

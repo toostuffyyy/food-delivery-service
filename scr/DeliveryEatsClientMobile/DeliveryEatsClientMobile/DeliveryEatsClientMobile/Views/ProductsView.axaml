@@ -1,0 +1,432 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:DeliveryEatsClientMobile.ViewModels"
+             xmlns:matIcon="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:asynImLoad="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+             x:Class="DeliveryEatsClientMobile.Views.ProductsView"
+             x:DataType="viewModels:ProductsViewModel" x:CompileBindings="False"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="900"
+             DataContextChanged="StyledElement_OnDataContextChanged"
+             PointerMoved="InputElement_OnPointerMoved"
+             PointerReleased="BottomSheet_PointerReleased">
+    <Grid>
+        <!--Затемненный слой-->
+        <Border x:Name="Dimmer" ZIndex="1">
+            <!--Dimmer.Animation-->
+            <Border.Styles>
+                <Style Selector="Border.up">
+                    <Style.Animations>
+                        <Animation FillMode="Forward" Duration="0:0:0.5">
+                            <KeyFrame Cue="0%">
+                                <Setter Property="Margin" Value="{Binding ElementName=BottomSheet,Path=Margin}" />
+                            </KeyFrame>
+                            <KeyFrame Cue="100%">
+                                <Setter Property="Margin" Value="0,0,0,0" />
+                            </KeyFrame>
+                        </Animation>
+                    </Style.Animations>
+                </Style>
+                <Style Selector="Border.down">
+                    <Style.Animations>
+                        <Animation FillMode="Forward" Duration="0:0:0.5">
+                            <KeyFrame Cue="0%">
+                                <Setter Property="Margin" Value="{Binding ElementName=BottomSheet, Path=Margin}" />
+                            </KeyFrame>
+                            <KeyFrame Cue="100%">
+                                <Setter Property="Margin" Value="{Binding MarginBottomSheet}" />
+                            </KeyFrame>
+                        </Animation>
+                    </Style.Animations>
+                </Style>
+            </Border.Styles>
+        </Border>
+        <!--Body-->
+        <DockPanel>
+            <!--Top NotAuthorization-->
+            <Grid Margin="15, 0" DockPanel.Dock="Top" Height="50"
+                  IsVisible="{Binding Client, Converter={x:Static ObjectConverters.IsNull}}">
+                <Button HorizontalAlignment="Left" VerticalAlignment="Center" BorderThickness="0" Padding="0"
+                        Command="{Binding GoToAuthorization}">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <matIcon:MaterialIcon Kind="NearMe" Height="20" Width="20" />
+                        <TextBlock Text="Укажите адрес доставки" HorizontalAlignment="Left" FontSize="16"/>
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding GoToAuthorization}" Classes="search"
+                        VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <TextBlock Text="Войти" HorizontalAlignment="Center" FontSize="16" Margin="2.5, 0"/>
+                </Button>
+            </Grid>
+            <!--Top Authorization-->
+            <Grid Margin="15, 0" DockPanel.Dock="Top" Height="50"
+                  IsVisible="{Binding Client, Converter={x:Static ObjectConverters.IsNotNull}}">
+                <Button HorizontalAlignment="Left" VerticalAlignment="Center" BorderThickness="0" Padding="0">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <TextBlock Text="Адрес доставки" Foreground="{StaticResource GrayTextColor}"/>
+                            <matIcon:MaterialIcon Kind="NavigateNext" Height="18" Width="18" 
+                                                   Foreground="{StaticResource GrayTextColor}"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding Client.SelectedAddress.FullAddress}" HorizontalAlignment="Left" FontSize="16"/>
+                    </StackPanel>
+                </Button>
+                <Button Width="40" Height="40" HorizontalAlignment="Right" Command="{Binding GoToProfile}">
+                    <Border Width="40" Height="40" ClipToBounds="True" CornerRadius="25">
+                        <asynImLoad:AdvancedImage Source="{Binding Client.ImagePath, 
+                                                        Converter={StaticResource imageNameConv},
+                                                        TargetNullValue=/Assets/UserTemp.jpg}" Stretch="UniformToFill"/>
+                    </Border>
+                </Button>
+            </Grid>
+            <!--Search-->
+            <Border x:Name="BorderSearch" CornerRadius="0,0,25,25" ZIndex="1" DockPanel.Dock="Top">
+                <Button Classes="search" Margin="15, 5,15,10" Command="{Binding GoToSearch}">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <matIcon:MaterialIcon Kind="Search" Width="25" Height="25" 
+                                              Foreground="{StaticResource LightGrayTextColor}" />
+                        <TextBlock Text="Поиск" FontWeight="DemiBold" Foreground="{StaticResource LightGrayTextColor}"/>
+                    </StackPanel>
+                </Button>
+            </Border>
+            <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" 
+                          ScrollChanged="ScrollViewer_OnScrollChanged">
+                <StackPanel Spacing="10">
+                    <!--Filters-->
+                    <ItemsControl ItemsSource="{Binding CategoryProducts}" HorizontalAlignment="Center" Margin="15, 0">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Width="95" Height="100" Command="{Binding $parent[UserControl].DataContext.GoToFilterCommand}"
+                                        CommandParameter="{Binding Id}" Padding="0">
+                                    <StackPanel>
+                                        <Border Width="75" Height="75" ClipToBounds="True" CornerRadius="25"
+                                                HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <asynImLoad:AdvancedImage Source="{Binding ImagePath, 
+                                                    Converter={StaticResource imageNameConv},
+                                                    TargetNullValue=/Assets/CategoryProductTemp.png}" Stretch="UniformToFill" />
+                                        </Border>
+                                        <TextBlock Text="{Binding Name}" FontSize="12" FontWeight="DemiBold"/>
+                                    </StackPanel>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <!--Products-->
+                    <ItemsControl ItemsSource="{Binding Products}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <!--Category product-->
+                                <StackPanel Spacing="10" Margin="0, 5">
+                                    <TextBlock Text="{Binding Name}" Margin="15, 0" HorizontalAlignment="Left" 
+                                               FontSize="18" FontFamily="/Assets/Font/YandexSansDisplay-Bold.ttf" FontWeight="DemiBold" />
+                                    <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden" Margin="-20, 0">
+                                        <StackPanel Orientation="Horizontal" Margin="30, 0">
+                                            <ItemsControl ItemsSource="{Binding Products}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal" />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <!--Item product-->
+                                                        <Button Classes="product" Command="{Binding $parent[UserControl].DataContext.GetProductDetailsCommand}" 
+                                                                CommandParameter="{Binding Id}">
+                                                            <Grid RowDefinitions="Auto, Auto, *, Auto" Margin="5">
+                                                                <Border Width="100" Height="100" ClipToBounds="True" CornerRadius="20" Background="White">
+                                                                    <asynImLoad:AdvancedImage Source="{Binding ImagePath, Converter={StaticResource imageNameConv}, 
+                                                                            TargetNullValue='/Assets/ProductTemp.png'}" Stretch="UniformToFill"/>
+                                                                </Border>
+                                                                <StackPanel Grid.Row="1" Spacing="2.5" Margin="5, 5">
+                                                                    <TextBlock Text="{Binding Price, StringFormat={}{0:N0}₽}" 
+                                                                               HorizontalAlignment="Left" FontSize="14" FontWeight="DemiBold" />
+                                                                    <TextBlock Text="{Binding Name}" TextWrapping="Wrap" 
+                                                                               HorizontalAlignment="Left" FontSize="13"/>
+                                                                    <TextBlock HorizontalAlignment="Left" FontSize="13" Foreground="{StaticResource LightGrayTextColor}">
+                                                                        <Run Text="{Binding UnitValue}"/>
+                                                                        <Run Text="{Binding Unit}"/>
+                                                                    </TextBlock>
+                                                                </StackPanel>
+                                                                <Grid Row="3" Margin="0, 5, 0 ,0">
+                                                                    <Button CommandParameter="{Binding Id}" Classes="interactions"
+                                                                            Command="{Binding $parent[UserControl].DataContext.AddProductCommand,
+                                                                                RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                                            IsVisible="{Binding Count, ConverterParameter='addButton', 
+                                                                                Converter={StaticResource prodCountConv}}"
+                                                                            Width="100">
+                                                                        <matIcon:MaterialIcon Kind="Plus" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                                    </Button> 
+                                                                    <!--Counter Button-->
+                                                                    <Grid IsVisible="{Binding Count, ConverterParameter='editButton', 
+                                                                          Converter={StaticResource prodCountConv}}" 
+                                                                          HorizontalAlignment="Stretch">
+                                                                        <Button CommandParameter="{Binding Id}" Classes="interactions"
+                                                                                Command="{Binding $parent[UserControl].DataContext.RemoveProductCommand,
+                                                                                RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                                                HorizontalAlignment="Left">
+                                                                            <matIcon:MaterialIcon Kind="Minus" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                                        </Button>
+                                                                        <TextBlock Text="{Binding Count}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                                        <Button CommandParameter="{Binding Id}" Classes="interactions"
+                                                                                Command="{Binding $parent[UserControl].DataContext.AddProductCommand,
+                                                                                RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                                                HorizontalAlignment="Right">
+                                                                            <matIcon:MaterialIcon Kind="Plus" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                                            <Button.IsEnabled>
+                                                                                <MultiBinding Converter="{StaticResource prodEnabledConv}">
+                                                                                    <Binding Path="Count"/>
+                                                                                    <Binding Path="AvailableQuantity"/>
+                                                                                </MultiBinding>
+                                                                            </Button.IsEnabled>
+                                                                        </Button>
+                                                                    </Grid>
+                                                                </Grid>
+                                                            </Grid>
+                                                        </Button>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                            <!--Details products button-->
+                                            <Button Classes="product" Command="{Binding $parent[UserControl].DataContext.GoToFilterCommand}"
+                                                    CommandParameter="{Binding Id}">
+                                                <StackPanel Spacing="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <Border CornerRadius="50" ClipToBounds="True" Background="White" 
+                                                            Width="40" Height="40" BoxShadow="0 0 15 0 #000000">
+                                                        <matIcon:MaterialIcon Kind="NavigateNext" Height="25" Width="25"/>
+                                                    </Border>
+                                                    <TextBlock Text="Все товары" />
+                                                </StackPanel>
+                                            </Button>
+                                        </StackPanel>
+                                    </ScrollViewer>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Border Height="60" Background="Transparent"/>
+                </StackPanel>
+            </ScrollViewer>
+        </DockPanel>
+        <!--Bottom-->
+        <Border Height="60" CornerRadius="25,25,0,0" BoxShadow="0 -5 10 0 #19000000" 
+                VerticalAlignment="Bottom" Background="{StaticResource BackgroundColor}">
+            <Button Classes="accentButton" Height="40" Margin="20, 0" Padding="15, 0" HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Center" Command="{Binding GoToCart}" Content="Заказ">
+            </Button>
+        </Border>
+        <!--Bottom sheet-->
+        <Border x:Name="BottomSheet" Background="White" ClipToBounds="True" CornerRadius="35,35,0,0"
+                HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Opacity="0" ZIndex="1"
+                Classes.up="{Binding BottomSheetClass}" Loaded="BottomSheet_OnLoaded"
+                Classes.down="{Binding !BottomSheetClass}">
+            <Grid>
+                <!--BottomSheet.DragHandle-->
+                <Border Background="Transparent" VerticalAlignment="Top" Height="75" HorizontalAlignment="Stretch" 
+                        PointerPressed="InputElement_OnPointerPressed" ZIndex="1">
+                    <Border Height="5" Width="40" CornerRadius="15" Margin="0,10" VerticalAlignment="Top"
+                            Background="{StaticResource GrayBackgroundColor}"/>
+                </Border>
+                <!--BottomSheet.Close-->
+                <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" ZIndex="1"
+                        Command="{Binding HideBottomSheet}" Opacity="0.85">
+                    <Border CornerRadius="50" Padding="10" Background="White" BoxShadow="0 0 15 0 #19000000">
+                        <matIcon:MaterialIcon Kind="Close" Width="25" Height="25"/>
+                    </Border>
+                </Button>
+                <!--BottomSheet.Body-->
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                     <StackPanel Spacing="20">
+                         <Carousel x:Name="ProductImagesCarousel" ItemsSource="{Binding ProductDetails.ProductImages}">
+                             <Carousel.PageTransition >
+                                 <CompositePageTransition>
+                                     <PageSlide Duration="0:0:0.2" Orientation="Horizontal" />
+                                 </CompositePageTransition>
+                             </Carousel.PageTransition>
+                             <Carousel.ItemTemplate>
+                                 <DataTemplate>
+                                     <Grid>
+                                         <Button x:Name="PreviousButton" HorizontalAlignment="Left" ZIndex="1"
+                                                 IsVisible="{Binding ImagePath, 
+                                                    Converter={x:Static ObjectConverters.IsNotNull}}"
+                                                 Click="PreviousButton_OnClick" Opacity="0.85">
+                                             <Border ClipToBounds="True" CornerRadius="25" Background="White">
+                                                 <matIcon:MaterialIcon Kind="NavigateBefore" Height="35" Width="35"
+                                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                             </Border>
+                                         </Button>
+                                         <Border Height="400" ClipToBounds="True" Background="White"
+                                                 CornerRadius="35, 35, 0,0">
+                                             <asynImLoad:AdvancedImage Source="{Binding ImagePath, 
+                                                Converter={StaticResource imageNameConv},
+                                                TargetNullValue=/Assets/ProductTemp.png}" Stretch="UniformToFill"/>
+                                         </Border>
+                                         <Button x:Name="NextButton" HorizontalAlignment="Right" ZIndex="1"
+                                                 IsVisible="{Binding ImagePath, 
+                                                    Converter={x:Static ObjectConverters.IsNotNull}}"
+                                                 Click="NextButton_OnClick" Opacity="0.85">
+                                             <Border ClipToBounds="True" CornerRadius="25" Background="White">
+                                                <matIcon:MaterialIcon Kind="NavigateNext" Height="35" Width="35"
+                                                                      HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                             </Border>
+                                         </Button>
+                                     </Grid>
+                                 </DataTemplate>
+                             </Carousel.ItemTemplate>
+                         </Carousel>
+                         <StackPanel Margin="15, 0" Spacing="15">
+                             <TextBlock FontWeight="DemiBold" FontSize="26" HorizontalAlignment="Left" TextWrapping="Wrap">
+                                 <Run Text="{Binding ProductDetails.Name}" />
+                                 <Run Text="{Binding ProductDetails.UnitValue}" Foreground="{StaticResource GrayTextColor}"/>
+                                 <Run Text="{Binding ProductDetails.Unit}" Foreground="{StaticResource GrayTextColor}"/>
+                             </TextBlock>
+                             <Border Classes="lines"/>
+                             <!--Carbohydrates, Proteins, and Fats-->
+                             <StackPanel Spacing="15" IsVisible="{Binding ProductDetails.Kcal, 
+                                         Converter={x:Static ObjectConverters.IsNotNull}}">
+                                 <TextBlock Text="На 100 граммов" Classes="productDetailsDemiBoldGray" />
+                                 <StackPanel Orientation="Horizontal" Spacing="15">
+                                    <!--Proteins-->
+                                     <StackPanel>
+                                         <TextBlock Text="{Binding  ProductDetails.Proteins, StringFormat={}{0} г}" 
+                                                    Classes="productDetailsDemiBold"/>
+                                         <TextBlock Text="белки" FontSize="14"/>
+                                     </StackPanel>
+                                     <!--Fats-->
+                                     <StackPanel>
+                                         <TextBlock Text="{Binding  ProductDetails.Fats, StringFormat={}{0} г}" 
+                                                    Classes="productDetailsDemiBold"/>
+                                         <TextBlock Text="жиры" FontSize="14"/>
+                                     </StackPanel>
+                                    <!--Carbohydrates-->
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding  ProductDetails.Carbohydrates, StringFormat={}{0} г}" 
+                                                   Classes="productDetailsDemiBold"/>
+                                        <TextBlock Text="углеводы" FontSize="14"/>
+                                    </StackPanel>
+                                    <!--Kcal-->
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding  ProductDetails.Kcal, StringFormat={}{0} г}" 
+                                                   Classes="productDetailsDemiBold"/>
+                                        <TextBlock Text="ккал" FontSize="14"/>
+                                    </StackPanel>
+                                 </StackPanel>
+                                 <Border Classes="lines"/>
+                             </StackPanel>
+                             <TextBlock Text="Подробнее о товаре" FontWeight="DemiBold" FontSize="16" HorizontalAlignment="Left"/>
+                             <StackPanel Spacing="5" IsVisible="{Binding ProductDetails.Composition, 
+                                         Converter={x:Static ObjectConverters.IsNotNull}}">
+                                <TextBlock Text="Состав" Classes="productDetailsDemiBoldGray"/>
+                                <TextBlock Text="{Binding ProductDetails.Composition}" Classes="productDetailsGray"/>
+                             </StackPanel>
+                             <StackPanel Spacing="5" IsVisible="{Binding ProductDetails.Description, 
+                                         Converter={x:Static ObjectConverters.IsNotNull}}">
+                                <TextBlock Text="Описание" Classes="productDetailsDemiBoldGray" />
+                                <TextBlock Text="{Binding ProductDetails.Description}" Classes="productDetailsGray" />
+                             </StackPanel>
+                             <StackPanel Spacing="5" IsVisible="{Binding ProductDetails.ExpirationDate, 
+                                         Converter={x:Static ObjectConverters.IsNotNull}}">
+                                <TextBlock Text="Срок годности" Classes="productDetailsDemiBoldGray"/>
+                                <TextBlock Text="{Binding ProductDetails.ExpirationDate, Converter={StaticResource expDateConv}}" 
+                                           Classes="productDetailsGray"/>
+                             </StackPanel>
+                             <StackPanel Spacing="5" IsVisible="{Binding ProductDetails.StorageConditions, 
+                                         Converter={x:Static ObjectConverters.IsNotNull}}">
+                                <TextBlock Text="Условия хранения" Classes="productDetailsDemiBoldGray"/>
+                                <TextBlock Text="{Binding ProductDetails.StorageConditions}" Classes="productDetailsGray"/>
+                             </StackPanel>
+                             <StackPanel Spacing="5" IsVisible="{Binding ProductDetails.Brand, 
+                                         Converter={x:Static ObjectConverters.IsNotNull}}">
+                                <TextBlock Text="Производитель" Classes="productDetailsDemiBoldGray"/>
+                                <TextBlock Text="{Binding ProductDetails.Brand}" Classes="productDetailsGray"/>
+                             </StackPanel>
+                             <StackPanel Spacing="5" IsVisible="{Binding ProductDetails.Packaging, 
+                                         Converter={x:Static ObjectConverters.IsNotNull}}">
+                                <TextBlock Text="Упаковка" Classes="productDetailsDemiBoldGray"/>
+                                <TextBlock Text="{Binding ProductDetails.Packaging}" Classes="productDetailsGray"/>
+                             </StackPanel>
+                             <Border Height="100" Background="Transparent" />
+                         </StackPanel>
+                     </StackPanel>
+                </ScrollViewer>
+                <!--BottomSheet.Bottom-->
+                <Border Height="60" CornerRadius="25,25,0,0" BoxShadow="0 -5 10 0 #19000000" ZIndex="1"
+                        VerticalAlignment="Bottom" Background="{StaticResource BackgroundColor}">
+                    <Grid Margin="15, 0">
+                        <TextBlock Text="{Binding ProductDetails.Price, StringFormat={}{0:N0}₽}" 
+                                   HorizontalAlignment="Left" FontWeight="DemiBold" FontSize="22"/>
+                        <Button Command="{Binding AddProductDetailsCommand}" Classes="interactionsDetails" Width="150"
+                                CommandParameter="{Binding ProductDetails}"
+                                IsVisible="{Binding ProductDetails.Count, ConverterParameter='addButton', 
+                                    Converter={StaticResource prodCountConv}}">
+                            <matIcon:MaterialIcon Kind="Plus" Width="25" Height="25" Foreground="White"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Button> 
+                        <!--Counter Button-->
+                        <Grid HorizontalAlignment="Right" Width="150"
+                              IsVisible="{Binding ProductDetails.Count, ConverterParameter='editButton', 
+                                  Converter={StaticResource prodCountConv}}">
+                            <Button Command="{Binding RemoveProductDetailsCommand}" Classes="interactionsDetails"
+                                    CommandParameter="{Binding ProductDetails}" Width="50"
+                                    HorizontalAlignment="Left">
+                                <matIcon:MaterialIcon Kind="Minus" Width="25" Height="25" Foreground="White"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Button>
+                            <TextBlock Text="{Binding ProductDetails.Count}" FontSize="22"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button Command="{Binding AddProductDetailsCommand}" Classes="interactionsDetails"
+                                    CommandParameter="{Binding ProductDetails}" Width="50"
+                                    HorizontalAlignment="Right">
+                                <matIcon:MaterialIcon Kind="Plus" Width="25" Height="25" Foreground="White"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Button.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource prodEnabledConv}">
+                                        <Binding Path="ProductDetails.Count"/>
+                                        <Binding Path="ProductDetails.AvailableQuantity"/>
+                                    </MultiBinding>
+                                </Button.IsEnabled>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Border>
+             </Grid>
+            <!--BottomSheet.Animation-->
+            <Border.Styles>
+                <Style Selector="Border.up">
+                    <Style.Animations>
+                        <Animation FillMode="Forward" Duration="0:0:0.5">
+                            <KeyFrame Cue="0%">
+                                <Setter Property="Margin" Value="{Binding ElementName=BottomSheet,Path=Margin}" />
+                            </KeyFrame>
+                            <KeyFrame Cue="100%">
+                                <Setter Property="Margin" Value="0,0,0,0" />
+                            </KeyFrame>
+                        </Animation>
+                    </Style.Animations>
+                </Style>
+                <Style Selector="Border.down">
+                    <Style.Animations>
+                        <Animation FillMode="Forward" Duration="0:0:0.5">
+                            <KeyFrame Cue="0%">
+                                <Setter Property="Margin" Value="{Binding ElementName=BottomSheet, Path=Margin}" />
+                            </KeyFrame>
+                            <KeyFrame Cue="100%">
+                                <Setter Property="Margin" Value="{Binding MarginBottomSheet}" />
+                            </KeyFrame>
+                        </Animation>
+                    </Style.Animations>
+                </Style>
+            </Border.Styles>
+        </Border>
+    </Grid>
+</UserControl>

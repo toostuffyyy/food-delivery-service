@@ -1,0 +1,44 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:progRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
+        x:Class="desktop.Views.SplashWindow"
+		mc:Ignorable="d"
+		d:DesignWidth="1440" 
+		d:DesignHeight="1024"
+		SystemDecorations="None"
+        Width="800"
+        Height="600"
+		Background="{StaticResource	AccentColor}"
+		WindowStartupLocation="CenterScreen"
+		Icon="/Assets/Logo.ico"
+        Title="Регистрация сервисов">
+	
+	<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="400">
+		<TextBlock Text="FOOD"
+		           FontSize="125"
+		           FontWeight="Bold"
+		           Foreground="{StaticResource WhiteTextColor}"
+		           TextAlignment="Center"
+		           FontFamily="{StaticResource	RobotoBold}"/>
+		<TextBlock Text="DELIVERY" 
+		           FontSize="75"
+		           FontWeight="Bold"
+		           Foreground="{StaticResource WhiteTextColor}"
+		           TextAlignment="Center"
+		           FontFamily="{StaticResource	RobotoBold}"/>
+		<progRing:ProgressRing Width="75" 
+		                       Height="75"
+		                       Foreground="{StaticResource WhiteTextColor}" 
+		                       IsActive="True" 
+		                       Margin="10, 100, 10, 25"/>
+		<TextBlock Name="StatusTextBlock" 
+		           FontSize="20"
+		           TextAlignment="Center"
+		           VerticalAlignment="Center" 
+		           Text="Загрузка..."
+		           Foreground="White"
+		           FontFamily="{StaticResource RobotoLight}"/>
+	</StackPanel>
+</Window>

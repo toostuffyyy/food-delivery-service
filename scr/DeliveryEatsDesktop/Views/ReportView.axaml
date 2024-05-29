@@ -1,0 +1,35 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:desktop.ViewModels"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Avalonia;assembly=LiveChartsCore.SkiaSharpView.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="viewModels:ReportViewModel" x:Class="desktop.Views.ReportView">
+    
+    <Grid RowDefinitions="Auto, *" Margin="15" Background="{StaticResource BackgroundColor}">
+        <Border Background="White" CornerRadius="15" Margin="5" Padding="15"
+                HorizontalAlignment="Center">
+            <StackPanel Spacing="25" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock VerticalAlignment="Center" Text="Дата формирования отчета - с" FontSize="18"/>
+                <CalendarDatePicker SelectedDate="{Binding DateRange.StartDate}" 
+                                    Watermark="Начальная дата" FontSize="18"/>
+                <TextBlock VerticalAlignment="Center" Text="по" FontSize="18"/>
+                <CalendarDatePicker SelectedDate="{Binding DateRange.EndDate}" 
+                                    Watermark="Конечная дата" FontSize="18"/>
+                <Button Classes="accentButton" Width="150" Height="35" Content="Создать отчет" FontSize="18"
+                        Command="{Binding CreateDocReportCommand}"/>
+            </StackPanel>
+        </Border>
+        <Border Grid.Row="1" Background="White" CornerRadius="15" Margin="5">
+            <Grid ColumnDefinitions="*, *, *">
+                <lvc:PieChart Grid.Column="0" LegendPosition="Bottom" Series="{Binding ProductStatistics,
+                     Converter={StaticResource ProductConv}}" />
+                <lvc:CartesianChart Grid.Column="1" LegendPosition="Bottom" Series="{Binding RelativeFrequancies, 
+                    Converter={StaticResource ColumnSeriesConv}}"/>
+                <lvc:CartesianChart Grid.Column="2" LegendPosition="Bottom" Series="{Binding AccumulatedRelativeFrequancies, 
+                    Converter={StaticResource CartesianSeriesConv}}"/>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

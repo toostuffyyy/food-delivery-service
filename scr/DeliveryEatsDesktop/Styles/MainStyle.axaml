@@ -1,0 +1,539 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<!--TextBlock OrderDetails-->
+	<Style Selector="TextBlock.OrderDetails">
+		<Setter Property="FontSize" Value="18"/>
+		<Setter Property="TextAlignment" Value="Left"/>
+		<Setter Property="VerticalAlignment" Value="Center"/>
+	</Style>
+	<!--ComboBox Pagination-->
+	<Style Selector="ComboBox.pagination /template/Border#Background">
+		<Setter Property="BorderBrush" Value="{StaticResource LinesColorBrush}"/>
+		<Setter Property="BorderThickness" Value="1"/>
+		<Setter Property="Background" Value="White"/>
+		<Setter Property="CornerRadius" Value="5"/>
+	</Style>
+	<Style Selector="ComboBox.pagination:pointerover /template/Border#Background">
+		<Setter Property="Background" Value="White"/>
+		<Setter Property="CornerRadius" Value="5"/>
+	</Style>
+	<Style Selector="ComboBox.pagination:focus /template/Border#Background">
+		<Setter Property="Background" Value="White"/>
+		<Setter Property="CornerRadius" Value="5"/>
+	</Style>
+	<Style Selector="ComboBox.pagination:pressed /template/Border#Background">
+		<Setter Property="Background" Value="White"/>
+		<Setter Property="CornerRadius" Value="5"/>
+	</Style>
+	<!--ComboBox.AddEdit-->
+	<Style Selector="ComboBox.addEdit">
+		<Setter Property="Height" Value="65"/>
+		<Setter Property="Width" Value="250"/>
+		<Setter Property="VerticalContentAlignment" Value="Bottom"/>
+		<Setter Property="Background" Value="White"/>
+		<Setter Property="Padding" Value="17"/>
+		<Setter Property="FontSize" Value="18"/>
+	</Style>
+	<Style Selector="ComboBox.addEdit /template/ Border#Background">
+		<Setter Property="Margin" Value="0,7,0,0"/>
+	</Style>
+	<Style Selector="ComboBox.addEdit:pointerover /template/ Border#Background">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="BorderBrush" Value="{StaticResource AccentColor}"/>
+	</Style>
+	<Style Selector="ComboBox.addEdit:focused:pressed /template/ Border#Background">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="BorderBrush" Value="{StaticResource AccentColor}"/>
+	</Style>
+	<Style Selector="ComboBox.addEdit /template/ TextBlock#PlaceholderTextBlock">
+		<Setter Property="IsVisible" Value="True"/>
+		<Setter Property="FontSize" Value="12"/>
+		<Setter Property="Padding" Value="2.5"/>
+		<Setter Property="Foreground" Value="White"/>
+		<Setter Property="Margin" Value="15,5,0,0"/>
+		<Setter Property="Background" Value="{StaticResource AccentColor}"/>
+		<Setter Property="VerticalAlignment" Value="Top"/>
+		<Setter Property="HorizontalAlignment" Value="Left"/>
+	</Style>
+	<!--CheckBox.Sorting-->
+	<Style Selector="CheckBox.sorting">
+		<Setter Property="BorderThickness" Value="0"/>
+		<Setter Property="CornerRadius" Value="5"/>
+		<Setter Property="Height" Value="30"/>
+		<Setter Property="Padding" Value="10,0"/>
+	</Style>
+	<Style Selector="CheckBox.sorting /template/Grid#RootGrid > Grid">
+		<Setter Property="Margin" Value="10,0,0,0"/>
+	</Style>
+	<Style Selector="CheckBox.sorting:pointerover /template/Border#PART_Border">
+		<Setter Property="CornerRadius" Value="5"/>
+	</Style>
+	<Style Selector="CheckBox.sorting:checked /template/ Border#NormalRectangle">
+		<Setter Property="Background" Value="{StaticResource AccentColor}"/>
+	</Style>
+	<Style Selector="CheckBox.sorting:pressed /template/ Border#NormalRectangle">
+		<Setter Property="Background" Value="{StaticResource AccentColor}"/>
+		<Setter Property="BorderThickness" Value="0"/>
+	</Style>
+	<!--CheckBox Filter-->
+	<Style Selector="CheckBox.filter">
+		<Setter Property="BorderThickness" Value="0"/>
+		<Setter Property="CornerRadius" Value="10"/>
+		<Setter Property="Height" Value="30"/>
+		<Setter Property="Padding" Value="10,0"/>
+	</Style>
+	<Style Selector="CheckBox.filter:checked /template/ Border#NormalRectangle">
+		<Setter Property="Background" Value="{StaticResource AccentColor}"/>
+	</Style>
+	<Style Selector="CheckBox.filter:pressed /template/ Border#NormalRectangle">
+		<Setter Property="Background" Value="{StaticResource AccentColor}"/>
+		<Setter Property="BorderThickness" Value="0"/>
+	</Style>
+	<Style Selector="CheckBox.filter /template/Grid#RootGrid > Grid">
+		<Setter Property="Margin" Value="10,0,0,0"/>
+	</Style>
+	<Style Selector="CheckBox.filter:pointerover /template/Border#PART_Border">
+		<Setter Property="CornerRadius" Value="10"/>
+	</Style>
+	<!--SplitButton.Filter-->
+	<Style Selector="SplitButton.filter /template/Button#PART_PrimaryButton">
+		<Setter Property="IsVisible" Value="False"/>
+	</Style>
+	<Style Selector="SplitButton.filter /template/Button#PART_SecondaryButton">
+		<Setter Property="Height" Value="35"/>
+		<Setter Property="Width" Value="35"/>
+		<Setter Property="CornerRadius" Value="10"/>
+		<Setter Property="Background" Value="White"/>
+		<Setter Property="BorderThickness" Value="0"/>
+	</Style>
+	<Style Selector="SplitButton.filter /template/Button#PART_SecondaryButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="White"/>
+	</Style>
+	<Style Selector="SplitButton.filter /template/Button#PART_SecondaryButton:flyout-open /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="White"/>
+		<Setter Property="CornerRadius" Value="10"/>
+		<Setter Property="BoxShadow" Value="0 0 15 0 #7992E8"/>
+	</Style>
+	<Style Selector="SplitButton.filter /template/Button#PART_SecondaryButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="White"/>
+		<Setter Property="BoxShadow" Value="0 0 15 0 #7992E8"/>
+	</Style>
+	<Style Selector="SplitButton.filter /template/Button#PART_SecondaryButton > PathIcon">
+		<Setter Property="Height" Value="20"/>
+		<Setter Property="Width" Value="20"/>
+		<Setter Property="Data" Value="M47.16,21.221l-5.91-0.966c-0.346-1.186-0.819-2.326-1.411-3.405l3.45-4.917c0.279-0.397,0.231-0.938-0.112-1.282 l-3.889-3.887c-0.347-0.346-0.893-0.391-1.291-0.104l-4.843,3.481c-1.089-0.602-2.239-1.08-3.432-1.427l-1.031-5.886 C28.607,2.35,28.192,2,27.706,2h-5.5c-0.49,0-0.908,0.355-0.987,0.839l-0.956,5.854c-1.2,0.345-2.352,0.818-3.437,1.412l-4.83-3.45 c-0.399-0.285-0.942-0.239-1.289,0.106L6.82,10.648c-0.343,0.343-0.391,0.883-0.112,1.28l3.399,4.863 c-0.605,1.095-1.087,2.254-1.438,3.46l-5.831,0.971c-0.482,0.08-0.836,0.498-0.836,0.986v5.5c0,0.485,0.348,0.9,0.825,0.985 l5.831,1.034c0.349,1.203,0.831,2.362,1.438,3.46l-3.441,4.813c-0.284,0.397-0.239,0.942,0.106,1.289l3.888,3.891 c0.343,0.343,0.884,0.391,1.281,0.112l4.87-3.411c1.093,0.601,2.248,1.078,3.445,1.424l0.976,5.861C21.3,47.647,21.717,48,22.206,48 h5.5c0.485,0,0.9-0.348,0.984-0.825l1.045-5.89c1.199-0.353,2.348-0.833,3.43-1.435l4.905,3.441 c0.398,0.281,0.938,0.232,1.282-0.111l3.888-3.891c0.346-0.347,0.391-0.894,0.104-1.292l-3.498-4.857 c0.593-1.08,1.064-2.222,1.407-3.408l5.918-1.039c0.479-0.084,0.827-0.5,0.827-0.985v-5.5C47.999,21.718,47.644,21.3,47.16,21.221z M25,32c-3.866,0-7-3.134-7-7c0-3.866,3.134-7,7-7s7,3.134,7,7C32,28.866,28.866,32,25,32z"/>
+	</Style>
+	<Style Selector="SplitButton.filter:flyout-open /template/Button#PART_SecondaryButton /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="White"/>
+	</Style>
+	<!--MenuFlyout.Filter-->
+	<Style Selector="FlyoutPresenter.filter">
+		<Setter Property="Background" Value="White"/>
+		<Setter Property="CornerRadius" Value="30"/>
+	</Style>
+	<!--ContextMenu-->
+	<Style Selector="ContextMenu">
+		<Setter Property="Background" Value="White"/>
+	</Style>
+	<!--ToggleButton-->
+	<Style Selector="ToggleButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="Transparent"/>
+	</Style>
+	<Style Selector="ToggleButton:checked/template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Height" Value="{TemplateBinding Height}"/>
+		<Setter Property="Width" Value="{TemplateBinding Width}"/>
+	</Style>
+	<Style Selector="ToggleButton">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Height" Value="{TemplateBinding Height}"/>
+		<Setter Property="Width" Value="{TemplateBinding Width}"/>
+	</Style>
+	<!--ToggleButton.Sorting-->
+	<Style Selector="ToggleButton.sorting">
+		<Setter Property="Foreground" Value="Black"/>
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="BorderBrush" Value="Transparent"/>
+	</Style>
+	<Style Selector="ToggleButton.sorting:pointerover/template/ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Foreground" Value="Black"/>
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="BorderBrush" Value="Transparent"/>
+	</Style>
+	<Style Selector="ToggleButton.sorting:focus /template/ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Foreground" Value="{StaticResource AccentColor}"/>
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="BorderBrush" Value="Transparent"/>
+	</Style>
+	<Style Selector="ToggleButton.sorting:checked /template/ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Foreground" Value="{StaticResource AccentColor}"/>
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="BorderBrush" Value="Transparent"/>
+	</Style>
+	<Style Selector="ToggleButton.sorting:disabled /template/ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Foreground" Value="Black"/>
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="BorderBrush" Value="Transparent"/>
+	</Style>
+	<!--Border.Lines-->
+	<Style Selector="Border.Lines">
+		<Setter Property="BorderThickness" Value="1"/>
+		<Setter Property="CornerRadius" Value="5"/>
+		<Setter Property="Margin" Value="0,15"/>
+		<Setter Property="BorderBrush" Value="{StaticResource LinesColorBrush}"/>
+	</Style>
+	<!--Border.Search-->
+	<Style Selector="Border.Search">
+		<Setter Property="Background" Value="White"/>
+		<Setter Property="BorderThickness" Value="0"/>
+		<Setter Property="CornerRadius" Value="10"/>
+		<Setter Property="BoxShadow" Value="0 0 15 0 LightGray"/>
+	</Style>
+	<Style Selector="Border.Search:pointerover">
+		<Setter Property="BoxShadow" Value="0 0 15 0 #7992E8"/>
+	</Style>
+	<Style Selector="Border.Search:focus">
+		<Setter Property="BoxShadow" Value="0 0 15 0 #7992E8"/>
+	</Style>
+	<!--TextBox.Search-->
+	<Style Selector="TextBox.Search">
+		<Setter Property="VerticalContentAlignment" Value="Center"/>
+		<Setter Property="Margin" Value="10, 0"/>
+		<Setter Property="BorderBrush" Value="{StaticResource AccentColor}"/>
+		<Setter Property="BorderThickness" Value="0"/>
+	</Style>
+	<Style Selector="TextBox.Search /template/Border#PART_BorderElement">
+		<Setter Property="Background" Value="White"/>
+		<Setter Property="CornerRadius" Value="10"/>
+		<Setter Property="BorderThickness" Value="0"/>
+	</Style>
+	<Style Selector="TextBox.Search:pointerover /template/Border#PART_BorderElement">
+		<Setter Property="Background" Value="White"/>
+		<Setter Property="BorderThickness" Value="0"/>
+	</Style>
+	<Style Selector="TextBox.Search:focus /template/Border#PART_BorderElement">
+		<Setter Property="Background" Value="White"/>
+		<Setter Property="BorderThickness" Value="0"/>
+	</Style>
+	<!--TextBox.Authorization-->
+	<Style Selector="TextBox.Authorization">
+		<Setter Property="CornerRadius" Value="15"/>
+		<Setter Property="Margin" Value="0"/>
+		<Setter Property="Foreground" Value="Black"/>
+		<Setter Property="BorderBrush" Value="{StaticResource AccentColor}"/>
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="SelectionBrush" Value="{StaticResource AccentColor}" />
+		<Setter Property="FontFamily" Value="{StaticResource RobotoLight}"/>
+		<Setter Property="BorderThickness" Value="0"/>
+		<Setter Property="Height" Value="85"/>
+		<Setter Property="Width" Value="400"/>
+		<Setter Property="Template">
+			<ControlTemplate TargetType="TextBox">
+	            <DataValidationErrors>
+	              <Panel>
+	                <Border
+	                  Name="PART_BorderElement"
+					  BoxShadow="0 0 15 0 DarkGray"
+					  Margin="15"
+	                  Background="{TemplateBinding Background}"
+	                  BorderBrush="{TemplateBinding BorderBrush}"
+	                  BorderThickness="{TemplateBinding BorderThickness}"
+	                  CornerRadius="{TemplateBinding CornerRadius}"
+	                  MinWidth="{TemplateBinding MinWidth}"
+	                  MinHeight="{TemplateBinding MinHeight}">
+	                </Border>
+
+					<Border>
+					  <Grid ColumnDefinitions="Auto,*,Auto">
+					  <ContentPresenter Grid.Column="0"
+					                    Name="PART_InnerLeftContent"
+					                    Margin="10,0,0,0"
+										Grid.ColumnSpan="1"
+										Content="{TemplateBinding InnerLeftContent}"/>
+						<DockPanel x:Name="PART_InnerDockPanel"
+								 Grid.Column="1"
+								 Grid.ColumnSpan="1"
+								 Cursor="IBeam"
+								 Margin="{TemplateBinding Padding}">
+						  <TextBlock Name="PART_FloatingWatermark"
+									 Foreground="{DynamicResource SystemAccentColor}"
+									 FontSize="{TemplateBinding FontSize}"
+									 IsVisible="False"
+									 Text="{TemplateBinding Watermark}"
+									 DockPanel.Dock="Top" />
+						  <StackPanel Orientation="Vertical">
+							  <TextBlock Name="PART_Watermark"
+										 Opacity="1"
+										 Margin="0,15,0,0"
+										 Text="{TemplateBinding Watermark}"
+										 Foreground="{TemplateBinding Foreground}"
+										 TextAlignment="{TemplateBinding TextAlignment}"
+										 TextWrapping="{TemplateBinding TextWrapping}"
+										 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+										 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+							  <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+									  VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
+									  AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}">
+								  <TextPresenter Name="PART_TextPresenter"
+												Text="{TemplateBinding Text, Mode=TwoWay}"
+												CaretIndex="{TemplateBinding CaretIndex}"
+												FontSize="16"
+												SelectionStart="{TemplateBinding SelectionStart}"
+												SelectionEnd="{TemplateBinding SelectionEnd}"
+												TextAlignment="{TemplateBinding TextAlignment}"
+												TextWrapping="{TemplateBinding TextWrapping}"
+												PasswordChar="{TemplateBinding PasswordChar}"
+												RevealPassword="{TemplateBinding RevealPassword}"
+												SelectionBrush="{TemplateBinding SelectionBrush}"
+												SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
+												CaretBrush="{TemplateBinding CaretBrush}"
+												HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+												VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+							  </ScrollViewer>
+						  </StackPanel>
+						</DockPanel>
+					  <ContentPresenter Name="PART_InnerRightContent" Grid.Column="2" Grid.ColumnSpan="1" Content="{TemplateBinding InnerRightContent}"/>
+					  </Grid>
+					</Border>
+	              </Panel>
+	            </DataValidationErrors>
+	        </ControlTemplate>
+		</Setter>
+	</Style>
+	<Style Selector="TextBox.Authorization:focus">
+		<Setter Property="Foreground" Value="{StaticResource AccentColor}"/>
+	</Style>
+	<Style Selector="TextBox.Authorization:pointerover /template/ TextBlock#PART_Watermark">
+		<Setter Property="Foreground" Value="Black"/>
+	</Style>
+	<Style Selector="TextBox.Authorization:focus /template/ TextBlock#PART_Watermark">
+		<Setter Property="Foreground" Value="{StaticResource AccentColor}"/>
+	</Style>
+	<Style Selector="TextBox.Authorization:focus /template/ Border#PART_BorderElement">
+		<Setter Property="BorderThickness" Value="0"/>
+		<Setter Property="BoxShadow" Value="0 0 25 0 #7992E8"/>
+	</Style>
+	<!--TextBox.AddEdit-->
+	<Style Selector="TextBox.addEdit">
+		<Setter Property="Height" Value="65"/>
+		<Setter Property="Width" Value="250"/>
+		<Setter Property="FontSize" Value="18"/>
+		<Setter Property="VerticalContentAlignment" Value="Center"/>
+		<Setter Property="SelectionBrush" Value="{StaticResource AccentColor}"/>
+		<Setter Property="Background" Value="White"/>
+		<Setter Property="Padding" Value="17"/>
+	</Style>
+	<Style Selector="TextBox.addEdit /template/ TextBlock#PART_FloatingWatermark">
+		<Setter Property="IsVisible" Value="True"/>
+		<Setter Property="Text" Value="{TemplateBinding Tag}"/>
+		<Setter Property="TextAlignment" Value="Center"/>
+		<Setter Property="Foreground" Value="White"/>
+		<Setter Property="FontSize" Value="12"/>
+		<Setter Property="Margin" Value="0,-15,0,0"/>
+		<Setter Property="Padding" Value="2.5"/>
+		<Setter Property="Background" Value="{StaticResource AccentColor}"/>
+		<Setter Property="VerticalAlignment" Value="Top"/>
+		<Setter Property="HorizontalAlignment" Value="Left"/>
+	</Style>
+	<Style Selector="TextBox.addEdit /template/ Border#PART_BorderElement">
+		<Setter Property="Margin" Value="0,7,0,0"/>
+	</Style>
+	<Style Selector="TextBox.addEdit:pointerover /template/ Border#PART_BorderElement">
+		<Setter Property="BorderBrush" Value="{StaticResource AccentColor}"/>
+	</Style>
+	<Style Selector="TextBox.addEdit:focused:pressed /template/ Border#PART_BorderElement">
+		<Setter Property="BorderBrush" Value="{StaticResource AccentColor}"/>
+	</Style>
+	<!--Button Login-->
+	<Style Selector="Button.Login">
+		<Setter Property="Background" Value="{StaticResource AccentColor}"/>
+		<Setter Property="CornerRadius" Value="25"/>
+		<Setter Property="HorizontalAlignment" Value="Center"/>
+		<Setter Property="VerticalAlignment" Value="Center"/>
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Border Background="{TemplateBinding Background}"
+						BoxShadow="0 0 25 0 #7992E8"
+						Width="350"
+						Height="50"
+						HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+						VerticalAlignment="{TemplateBinding VerticalAlignment}"
+						CornerRadius="{TemplateBinding CornerRadius}">
+					<TextBlock Text="{TemplateBinding Content}"
+							   Foreground="{StaticResource WhiteTextColor}"
+					           FontSize="24"
+					           TextAlignment="Center"
+					           HorizontalAlignment="Center"
+					           VerticalAlignment="Center"/>
+				</Border>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+	<!--Button accentButton-->
+	<Style Selector="Button.accentButton">
+		<Setter Property="Background" Value="{StaticResource AccentColor}"/>
+		<Setter Property="CornerRadius" Value="25"/>
+		<Setter Property="HorizontalAlignment" Value="Center"/>
+		<Setter Property="VerticalAlignment" Value="Center"/>
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Border Background="{TemplateBinding Background}"
+						Width="{TemplateBinding Width}"
+						Height="{TemplateBinding Height}"
+						Margin="{TemplateBinding Margin}"
+						HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+						VerticalAlignment="{TemplateBinding VerticalAlignment}"
+						CornerRadius="{TemplateBinding CornerRadius}">
+					<TextBlock Text="{TemplateBinding Content}"
+							   Foreground="{StaticResource WhiteTextColor}"
+					           TextAlignment="Center"
+					           HorizontalAlignment="Center"
+					           VerticalAlignment="Center"/>
+				</Border>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+	<!--Button OrderDetails-->
+	<Style Selector="Button.OrderDetails">
+		<Setter Property="Background" Value="{TemplateBinding Background}"/>
+		<Setter Property="CornerRadius" Value="25"/>
+		<Setter Property="HorizontalAlignment" Value="Center"/>
+		<Setter Property="VerticalAlignment" Value="Center"/>
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Border Background="{TemplateBinding Background}"
+						Width="200"
+						Height="35"
+						Margin="{TemplateBinding Margin}"
+						HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+						VerticalAlignment="{TemplateBinding VerticalAlignment}"
+						CornerRadius="{TemplateBinding CornerRadius}">
+					<TextBlock Text="{TemplateBinding Content}"
+							   Foreground="{StaticResource WhiteTextColor}"
+					           FontSize="20"
+					           TextAlignment="Center"
+					           HorizontalAlignment="Center"
+					           VerticalAlignment="Center"/>
+				</Border>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+	<!--Button Filter-->
+	<Style Selector="Button.FilterButton">
+		<Setter Property="Background" Value="White"/>
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Border Background="{TemplateBinding Background}"
+				        CornerRadius="10"
+				        BoxShadow="0 0 5 0 #10000000"
+				        Width="{TemplateBinding Width}"
+				        Height="{TemplateBinding Height}">
+					<Image Source="/Assets/Filter.png" Width="25" Height="25"/>
+				</Border>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+	<!--Button pagination-->
+	<Style Selector="Button.pagination">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Padding" Value="0"/>
+		<Setter Property="VerticalAlignment" Value="Center"/>
+		<Setter Property="FontSize" Value="16"/>
+		<Setter Property="BorderThickness" Value="0"/>
+	</Style>
+	<Style Selector="Button.pagination:pointerover /template/ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Foreground" Value="{StaticResource AccentColor}"/>
+		<Setter Property="BorderThickness" Value="0"/>
+	</Style>
+	<Style Selector="Button.pagination:pressed /template/ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Foreground" Value="{StaticResource AccentColor}"/>
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="BorderThickness" Value="0"/>
+	</Style>
+	<Style Selector="Button.pagination:focus /template/ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="BorderThickness" Value="0"/>
+	</Style>
+	<!--ProgressBar-->
+	<Style Selector="ProgressBar.Loading">
+		<Setter Property="Foreground">
+			<Setter.Value>
+				<LinearGradientBrush StartPoint="0%, 50%" EndPoint="100%, 50%">
+					<GradientStop Color="#7992E8" Offset="0.5"/>
+				</LinearGradientBrush>
+			</Setter.Value>
+		</Setter>
+		<Setter Property="CornerRadius" Value="5"/>
+		<Setter Property="VerticalAlignment" Value="Stretch"/>
+		<Setter Property="IsIndeterminate" Value="True"/>
+		<Setter Property="Background" Value="Transparent"/>
+	</Style>
+	<!--ListBox Menu-->
+	<Style Selector="ListBox.menu">
+		<Setter Property="Background" Value="Transparent"/>
+	</Style>
+	<Style Selector="ListBox.menu > ListBoxItem">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Padding" Value="0"/>
+	</Style>
+	<Style Selector="ListBox.menu > ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Foreground" Value="{StaticResource AccentColor}"/>
+		<Setter Property="Background" Value="Transparent"/>
+	</Style>
+	<Style Selector="ListBox.menu > ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="Transparent"/>
+	</Style>
+	<!--ListBox Catalog-->
+	<Style Selector="ListBox.catalog > ListBoxItem">
+		<Setter Property="Padding" Value="0"/>
+		<Setter Property="HorizontalAlignment" Value="Center"/>
+		<Setter Property="VerticalAlignment" Value="Center"/>
+		<Setter Property="Foreground" Value="Black"/>
+	</Style>
+	<Style Selector="ListBox.catalog > ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Padding" Value="0"/>
+	</Style>
+	<Style Selector="ListBox.catalog > ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="White"/>
+		<Setter Property="Padding" Value="0"/>
+		<Setter Property="Height" Value="75"/>
+		<Setter Property="Width" Value="385"/>
+		<Setter Property="CornerRadius" Value="15"/>
+		<Setter Property="Margin" Value="40,10,20,10"/>
+		<Setter Property="BoxShadow" Value="0 0 15 1 #7992E8"/>
+	</Style>
+	<!--ListBox CatalogOrderDetails-->
+	<Style Selector="ListBox.orderDetails > ListBoxItem">
+		<Setter Property="Background" Value="White"/>
+		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+		<Setter Property="VerticalAlignment" Value="Center"/>
+	</Style>
+	<Style Selector="ListBox.orderDetails > ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="White"/>
+	</Style>
+	<Style Selector="ListBox.orderDetails > ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="White"/>
+	</Style>
+	<!--ListBox Catalog-->
+	<Style Selector="ListBox.catalogManagers > ListBoxItem">
+		<Setter Property="Padding" Value="0"/>
+		<Setter Property="HorizontalAlignment" Value="Center"/>
+		<Setter Property="VerticalAlignment" Value="Center"/>
+		<Setter Property="Foreground" Value="Black"/>
+	</Style>
+	<Style Selector="ListBox.catalogManagers > ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Padding" Value="0"/>
+		<Setter Property="BoxShadow" Value="0 0 15 1 #7992E8"/>
+	</Style>
+	<Style Selector="ListBox.catalogManagers > ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="White"/>
+		<Setter Property="Padding" Value="0"/>
+		<Setter Property="Margin" Value="15"/>
+		<Setter Property="Width" Value="200"/>
+		<Setter Property="Height" Value="250"/>
+		<Setter Property="CornerRadius" Value="15"/>
+	</Style>
+</Styles>

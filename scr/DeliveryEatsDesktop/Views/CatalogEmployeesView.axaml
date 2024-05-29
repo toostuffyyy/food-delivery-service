@@ -1,0 +1,157 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:desktop.ViewModels"
+             xmlns:material="using:Material.Icons.Avalonia"
+             xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+             x:DataType="viewModels:CatalogEmployeesViewModel"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:CompileBindings="False" x:Class="desktop.Views.CatalogEmployeesView">
+	<Grid ColumnDefinitions="*, 350" RowDefinitions="*, 50" Margin="35,35,35,15">
+	    <DockPanel Grid.RowSpan="2">
+		    <!--Search-->
+		    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" HorizontalAlignment="Center" Spacing="15" Margin="15">
+			    <Border Width="550" Height="35" Classes="Search">
+				    <TextBox BorderThickness="0" SelectionBrush="{StaticResource AccentColor}" Watermark="Фамилия, имя или роль сотрудника"
+				             VerticalContentAlignment="Center" Classes="Search" Margin="10,0" Text="{Binding OwnerParameters.SearchString}">
+					    <TextBox.InnerLeftContent>
+						    <material:MaterialIconExt Size="20" Kind="Magnify"/>
+					    </TextBox.InnerLeftContent>
+				    </TextBox>
+			    </Border>
+		    </StackPanel>
+		    
+		    <!--List Managers-->
+		    <ListBox Margin="15" Background="Transparent" SelectedItem="{Binding SelectedOrder}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+		             ScrollViewer.VerticalScrollBarVisibility="Hidden" AutoScrollToSelectedItem="True" Classes="catalogManagers" ItemsSource="{Binding Employees}">
+			    <ListBox.ItemsPanel>
+				    <ItemsPanelTemplate>
+					    <WrapPanel Orientation="Horizontal"/>
+				    </ItemsPanelTemplate>
+			    </ListBox.ItemsPanel>
+			    <ListBox.ItemTemplate>
+	                <DataTemplate>
+	                    <Border Margin="15" Width="200" Height="250"
+	                            CornerRadius="15" Background="White">
+	                        <StackPanel Orientation="Vertical" Margin="10" Spacing="5">
+		                        <Border ClipToBounds="True" Width="175" Height="175" CornerRadius="15" HorizontalAlignment="Center">
+			                        <asyncImageLoader:AdvancedImage Stretch="UniformToFill" Source="{Binding ImagePath, 
+										Converter={StaticResource ImageConv}, TargetNullValue='/Assets/UserTemp.jpg'}"/>
+		                        </Border>
+		                        
+		                        <TextBlock FontSize="20">
+			                        <TextBlock.Text>
+				                        <MultiBinding StringFormat="{}{0} {1}. {2}.">
+					                        <Binding Path="Surname"/>
+					                        <Binding Path="Name[0]"/>
+					                        <Binding Path="Patronymic[0]"/>
+				                        </MultiBinding>
+			                        </TextBlock.Text>
+		                        </TextBlock>
+		                        <TextBlock FontSize="16" Text="{Binding Role}" Foreground="{StaticResource AccentColor}" FontWeight="Bold"/>
+	                        </StackPanel>
+	                        <Border.ContextMenu>
+	                            <ContextMenu>
+	                                <MenuItem Header="Редактировать" Command="{Binding $parent[UserControl].DataContext.EditEmployeeCommand}"
+	                                          CommandParameter="{Binding Id}"/>
+	                                <MenuItem Header="Удалить" 
+	                                          Command="{Binding $parent[UserControl].DataContext.DeleteEmployeeCommand}"
+	                                          CommandParameter="{Binding Id}"/>
+	                            </ContextMenu>
+	                        </Border.ContextMenu>
+	                    </Border>
+	                </DataTemplate>
+	            </ListBox.ItemTemplate>
+	        </ListBox>
+	    </DockPanel>
+		
+		<!--Pagination menu-->
+		<StackPanel Grid.Column="1" Orientation="Vertical" Spacing="25" VerticalAlignment="Top" Margin="0, 50">
+		    <Border Classes="Search" HorizontalAlignment="Center" BoxShadow="0 0 0 0 #FFFFFF" Padding="15">
+			    <StackPanel Orientation="Vertical">
+					<TextBlock Text="Сортировка" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" Foreground="{StaticResource AccentColor}" />
+					<Rectangle Height="1" Fill="Black" Margin="0,10"/>
+					<ItemsControl ItemsSource="{Binding SortElements}"
+					              ItemTemplate="{StaticResource sortTemplate}" FontSize="16">
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel Orientation="Horizontal"/>
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+					</ItemsControl>
+					
+					<TextBlock Text="Фильтрация" Margin="0,20,0,0" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" Foreground="{StaticResource AccentColor}"/>
+					<Rectangle Height="1" Fill="Black" Margin="0,10"/>
+					<ItemsControl ItemsSource="{Binding Filters}"
+					              ItemTemplate="{StaticResource filterCategoryTemplate}" FontSize="16">
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<StackPanel Orientation="Vertical" Spacing="20"/>
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+					</ItemsControl>
+					
+					<TextBlock Text="Количество элементов" 
+					           HorizontalAlignment="Center"
+					           FontWeight="Bold" 
+					           Foreground="{StaticResource AccentColor}"
+					           FontSize="18"
+					           Margin="0,20,0,0"/>
+					<Rectangle Height="1" Fill="Black" Margin="0,10"/>
+					<StackPanel Orientation="Horizontal" 
+					            HorizontalAlignment="Center" 
+					            Spacing="20"
+					            VerticalAlignment="Center">
+						<ComboBox Background="White"
+						          SelectedValue="{Binding OwnerParameters.SizePage}" 
+						          ItemsSource="{Binding PageCounts}" 
+						          Classes="pagination"/>
+						<TextBlock Text="элементов"
+						           VerticalAlignment="Center"
+						           TextAlignment="Center"
+						           FontSize="16" />
+					</StackPanel>
+				</StackPanel>
+		    </Border>
+		    <Button Classes="accentButton" Width="300" Height="35" FontSize="16" Command="{Binding AddEmployee}" Content="Добавить сотрудника"/>
+	    </StackPanel>
+	    
+	    <!--Pagination panel-->
+	    <Border Grid.Row="1" Grid.ColumnSpan="2" Background="White" CornerRadius="15" Padding="7.5" 
+	            Margin="0, 10, 0,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+		    <StackPanel Orientation="Horizontal" Spacing="25">
+			    <Button Classes="pagination" Command="{Binding GoFirstPage}" >
+				    <material:MaterialIconExt Size="25" Kind="FirstPage"/>
+			    </Button>
+				
+			    <Button Classes="pagination" Command="{Binding PreviousPage}" >
+				    <StackPanel Orientation="Horizontal">
+					    <material:MaterialIconExt Size="25" Kind="NavigateBefore"/>
+					    <TextBlock Text="Назад" VerticalAlignment="Center"/>
+				    </StackPanel>
+			    </Button>
+				
+			    <TextBlock VerticalAlignment="Center" FontSize="16">
+				    <TextBlock.Text>
+					    <MultiBinding StringFormat="{}{0}  из  {1}">
+						    <Binding Path="OwnerParameters.PageNumber"/>
+						    <Binding Path="CountPage"/>
+					    </MultiBinding>
+				    </TextBlock.Text>
+			    </TextBlock>
+				
+			    <Button Classes="pagination" Command="{Binding NextPage}" >
+				    <StackPanel Orientation="Horizontal">
+					    <TextBlock VerticalAlignment="Center" Text="Вперед"/>
+					    <material:MaterialIconExt Size="25" Kind="NavigateNext"/>
+				    </StackPanel>
+			    </Button>
+				
+			    <Button Classes="pagination" Command="{Binding GoLastPage}">
+				    <material:MaterialIconExt Size="25" Kind="LastPage" />
+			    </Button>
+		    </StackPanel>
+	    </Border>
+    </Grid>
+</UserControl>

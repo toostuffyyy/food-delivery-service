@@ -1,0 +1,135 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:DeliveryEatsClientMobile.ViewModels"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="900"
+             x:DataType="viewModels:CartViewModel"
+             Background="White"
+             x:CompileBindings="False"
+             x:Class="DeliveryEatsClientMobile.Views.CartView">
+    <Grid>
+        <DockPanel>
+            <!--Header-->
+            <Grid DockPanel.Dock="Top" Margin="15,0">
+                <Button VerticalAlignment="Center" HorizontalAlignment="Left" Background="Transparent"
+                        Command="{Binding GoBackCommand}">
+                    <avalonia:MaterialIcon Kind="ArrowBack" Height="25" Width="25"/>
+                </Button>
+                <StackPanel>
+                    <TextBlock Text="Корзина" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                    <TextBlock Text="Кол-во товаров" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"
+                               Foreground="{StaticResource GrayTextColor}"/>
+                </StackPanel>
+                <Button HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent"
+                        Command="{Binding  ClearOrderCommand}">
+                    <avalonia:MaterialIcon Kind="Delete" Height="25" Width="25"/>
+                </Button>
+            </Grid>
+            <!--Bottom-->
+            <Border CornerRadius="25,25,0,0" Background="{StaticResource GrayBackgroundColor}"
+                    Padding="20" DockPanel.Dock="Bottom">
+                <StackPanel Spacing="15">
+                    <StackPanel Spacing="15">
+                        <Grid>
+                            <TextBlock Text="Сумма заказа" Foreground="{StaticResource GrayTextColor}"
+                                       FontSize="16" HorizontalAlignment="Left"/>
+                            <TextBlock Text="{Binding Order.Sum, StringFormat={}{0:N0} ₽}" 
+                                       Foreground="{StaticResource GrayTextColor}"
+                                       FontSize="16" HorizontalAlignment="Right"/>
+                        </Grid>
+                        <Grid>
+                            <TextBlock Text="Доставка" Foreground="{StaticResource GrayTextColor}"
+                                       FontSize="16" HorizontalAlignment="Left"/>
+                            <TextBlock Text="{Binding Order.Sum, StringFormat={}{0:N0} ₽}" 
+                                       Foreground="{StaticResource GrayTextColor}"
+                                       FontSize="16" HorizontalAlignment="Right"/>
+                        </Grid>
+                        <Grid>
+                            <TextBlock Text="Сборка" Foreground="{StaticResource GrayTextColor}"
+                                       FontSize="16" HorizontalAlignment="Left"/>
+                            <TextBlock Text="{Binding Order.Sum, StringFormat={}{0:N0} ₽}" 
+                                       Foreground="{StaticResource GrayTextColor}"
+                                       FontSize="16" HorizontalAlignment="Right"/>
+                        </Grid>
+                        <Grid>
+                            <TextBlock Text="Итого" FontSize="20" HorizontalAlignment="Left" FontWeight="DemiBold"/>
+                            <TextBlock Text="{Binding Order.Sum, StringFormat={}{0:N0} ₽}"
+                                       FontSize="20" HorizontalAlignment="Right" FontWeight="DemiBold"/>
+                        </Grid>
+                    </StackPanel>
+                    <Button Classes="accentButton" Height="40" Padding="15, 0" Command="{Binding AddOrderCommand}"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Center" Content="К оплате">
+                    </Button>
+                </StackPanel>
+            </Border>
+            <!--Body-->
+            <ScrollViewer>
+                <StackPanel Spacing="25">
+                    <ItemsControl ItemsSource="{Binding Order.Products}" Margin="15,0">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="Auto, Auto, *, Auto" Margin="0,15">
+                                    <Button>
+                                        <Border Width="50" Height="50" ClipToBounds="True" CornerRadius="10">
+                                            <asyncImageLoader:AdvancedImage Source="{Binding ImagePath, 
+                                                Converter={StaticResource imageNameConv}, 
+                                                TargetNullValue='/Assets/ProductTemp.png'}" Stretch="UniformToFill"/>
+                                        </Border>
+                                    </Button>
+                                    
+                                    <StackPanel Grid.Column="1" Margin="15,0" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Name}" FontSize="16" TextWrapping="Wrap" HorizontalAlignment="Left" />
+                                        <TextBlock FontSize="14" HorizontalAlignment="Left">
+                                            <Run Text="{Binding Price, StringFormat={}{0:N0} ₽}"/>
+                                            <Run Text="⋅" Foreground="{StaticResource GrayTextColor}"/>
+                                            <Run Text="{Binding UnitValue}" Foreground="{StaticResource GrayTextColor}"/>
+                                            <Run Text="{Binding Unit}" Foreground="{StaticResource GrayTextColor}"/>
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <!--Counter Button-->
+                                     <StackPanel Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                 IsVisible="{Binding Count, ConverterParameter='editButton', 
+                                                    Converter={StaticResource prodCountConv}}">
+                                         <Border Background="{StaticResource GrayBackgroundColor}" CornerRadius="10">
+                                             <StackPanel Orientation="Horizontal" Spacing="10">
+                                                 <Button CommandParameter="{Binding}" Classes="interactionsOrder"
+                                                         Command="{Binding $parent[UserControl].DataContext.RemoveProductCommand,
+                                                            RelativeSource={RelativeSource AncestorType=ItemsControl}}">
+                                                    <avalonia:MaterialIcon Kind="Minus" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                                           Width="15" Height="15"/>
+                                                </Button>
+                                                <TextBlock Text="{Binding Count}" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                           FontSize="16"/>
+                                                <Button CommandParameter="{Binding}" Classes="interactionsOrder"
+                                                        Command="{Binding $parent[UserControl].DataContext.AddProductCommand,
+                                                        RelativeSource={RelativeSource AncestorType=ItemsControl}}">
+                                                    <avalonia:MaterialIcon Kind="Plus" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                                           Width="15" Height="15"/>
+                                                    <Button.IsEnabled>
+                                                        <MultiBinding Converter="{StaticResource prodEnabledConv}">
+                                                            <Binding Path="Count"/>
+                                                            <Binding Path="AvailableQuantity"/>
+                                                        </MultiBinding>
+                                                    </Button.IsEnabled>
+                                                </Button>
+                                             </StackPanel>
+                                         </Border>
+                                    </StackPanel>
+                                     <Border Classes="lines" Grid.Column="1" Grid.ColumnSpan="3" VerticalAlignment="Bottom" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+        </DockPanel>
+    </Grid>
+</UserControl>

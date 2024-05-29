@@ -1,0 +1,102 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+        xmlns:vm="clr-namespace:desktop.ViewModels"
+        mc:Ignorable="d" 
+        x:Class="desktop.Views.EmployeeWindow"
+        x:DataType="vm:EmployeeViewModel"
+        Background="{StaticResource BackgroundColor}"
+        Height="850" Width="1440" MinHeight="720" MinWidth="1300"
+        WindowStartupLocation="CenterScreen" Icon="/Assets/Logo.ico" Title="Список заказов">
+	<Grid RowDefinitions="60, *">
+		<!--FootBar-->
+		<Border CornerRadius="0,0,15,15" 
+				          Background="White"
+				          BoxShadow="0 5 10 0 #9a7992E8">
+			<Grid>
+				<!--ListBox Menu-->
+				<ListBox SelectedItem="{Binding SelectedMenuItem}" Margin="50,0,0,0" 
+				         Classes="menu" 
+				         Padding="0" 
+				         ItemsSource="{Binding Menu}" 
+				         HorizontalAlignment="Left" 
+				         VerticalAlignment="Center">
+					<ListBox.ItemsPanel>
+						<ItemsPanelTemplate>
+							<StackPanel Orientation="Horizontal" Spacing="100"/>
+						</ItemsPanelTemplate>
+					</ListBox.ItemsPanel>
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Vertical">
+								<TextBlock VerticalAlignment="Center" FontSize="28" FontFamily="{StaticResource RobotoLight}" Text="{Binding Name}"/>
+								<Ellipse Width="12.5" Height="12.5" HorizontalAlignment="Center" Fill="{StaticResource AccentColor}" 
+								         IsVisible="{Binding IsSelected, Mode=OneWay}"/>
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+				<!--ФИО, роль и иконка-->
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,50,0">
+					<Grid Margin="0,0,35,0">
+						<StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+							<TextBlock FontSize="20" FontFamily="{StaticResource RobotoLight}" VerticalAlignment="Center">
+								<TextBlock.Text>
+									<MultiBinding StringFormat="{}{0} {1}. {2}." FallbackValue="">
+										<Binding Path="Employee.Surname" FallbackValue=""/>
+										<Binding Path="Employee.Name[0]" FallbackValue=""/>
+										<Binding Path="Employee.Patronymic[0]" FallbackValue=""/>
+									</MultiBinding>
+								</TextBlock.Text>
+							</TextBlock>
+							<TextBlock FontSize="14" Foreground="#AFA4A4" Text="{Binding Employee.Role}" 
+							           HorizontalAlignment="Center" FontFamily="{StaticResource RobotoBold}"/>
+						</StackPanel>
+						
+						<Border Width="150" Height="70" ClipToBounds="True">
+							<ProgressBar Classes="Loading">
+								<ProgressBar.IsVisible>
+									<MultiBinding Converter="{x:Static BoolConverters.Or}">
+										<Binding Path="IsEmployeeInfoLoading"/>
+									</MultiBinding>
+								</ProgressBar.IsVisible>
+							</ProgressBar>
+						</Border>
+					</Grid>
+					
+					<Grid>
+						<Border CornerRadius="100" BoxShadow="0 0 5 0 LightGray" Width="50" Height="50" HorizontalAlignment="Center">
+							<Border ClipToBounds="True" CornerRadius="100">
+								<asyncImageLoader:AdvancedImage Stretch="UniformToFill" Source="{Binding Employee.ImagePath, 
+									Converter={StaticResource ImageConv}, TargetNullValue='/Assets/UserTemp.jpg'}"/>
+							</Border>
+							<Border.Styles>
+								<Style Selector="Border:pointerover">
+									<Setter Property="Cursor" Value="Hand"/>
+								</Style>
+							</Border.Styles>
+							<Border.ContextMenu>
+								<ContextMenu Cursor="Hand">
+									<MenuItem Header="Выйти" Command="{Binding  ExitCommand}"/>
+								</ContextMenu>
+							</Border.ContextMenu>
+						</Border>
+						
+						<Border Width="65" Height="65" ClipToBounds="True" CornerRadius="100">
+							<ProgressBar Classes="Loading">
+								<ProgressBar.IsVisible>
+									<MultiBinding Converter="{x:Static BoolConverters.Or}">
+										<Binding Path="IsEmployeeInfoLoading"/>
+									</MultiBinding>
+								</ProgressBar.IsVisible>
+							</ProgressBar>
+						</Border>
+					</Grid>
+				</StackPanel>
+			</Grid>
+		</Border>
+		<ContentControl Grid.Row="1" Content="{Binding SelectedViewModel}"/>
+	</Grid>
+</Window>

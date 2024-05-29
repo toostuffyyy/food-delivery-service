@@ -1,0 +1,324 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:DeliveryEatsClientMobile.ViewModels"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="900"
+             x:Class="DeliveryEatsClientMobile.Views.SearchView"
+             x:DataType="viewModels:SearchViewModel" x:CompileBindings="False"
+             DataContextChanged="StyledElement_OnDataContextChanged"
+             PointerMoved="InputElement_OnPointerMoved"
+             PointerReleased="BottomSheet_PointerReleased">
+    <Grid>
+        <!--Body-->
+        <DockPanel Margin="15, 10">
+            <!--Search-->
+            <Grid DockPanel.Dock="Top" ColumnDefinitions="Auto, *">
+                <Button Classes="search" Command="{Binding GoBack}"
+                        Margin="0, 0,7.5,0">
+                    <avalonia:MaterialIcon Kind="ArrowLeft" Width="25" Height="25" />
+                </Button>
+                <TextBox Grid.Column="1" Classes="search" Text="{Binding OwnerParameters.SearchString}" 
+                         Watermark="Поиск" Margin="7.5, 0,0,0" x:Name="SearchTextBox"
+                         Loaded="SearchTextBox_OnLoaded">
+                    <TextBox.InnerLeftContent>
+                        <avalonia:MaterialIcon Kind="Search" Width="25" Height="25" Margin="15,0"
+                                               Foreground="{StaticResource LightGrayTextColor}" />
+                    </TextBox.InnerLeftContent>
+                </TextBox>
+            </Grid>
+            <TextBlock Text="Ничего не найдено" FontSize="18" FontWeight="Bold" 
+                       VerticalAlignment="Top" Margin="0,25,0,0"
+                       IsVisible="{Binding !IsVisible, ElementName=ScrollViewer}"/>
+            <ScrollViewer x:Name="ScrollViewer" Margin="0,25,0,0"
+                VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled" 
+                IsVisible="{Binding CountProducts, Converter={StaticResource productCountVisibleConv}}">
+                <StackPanel Spacing="25">
+                    <TextBlock Text="{Binding CountProducts, StringFormat={}Нашлось {0} товаров}" 
+                               FontSize="18" FontWeight="Bold" HorizontalAlignment="Left"/>
+                    <!--Products-->
+                    <ItemsControl ItemsSource="{Binding Products}" HorizontalAlignment="Stretch">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <!--Item product-->
+                                <Button Classes="product" Command="{Binding $parent[UserControl].DataContext.GetProductDetailsCommand}" 
+                                        CommandParameter="{Binding Id}">
+                                    <Grid RowDefinitions="Auto, Auto, *, Auto" Margin="5">
+                                        <Border Width="100" Height="100" ClipToBounds="True" CornerRadius="20" Background="White">
+                                            <asyncImageLoader:AdvancedImage Source="{Binding ImagePath, 
+                                                    Converter={StaticResource imageNameConv}, 
+                                                    TargetNullValue='/Assets/ProductTemp.png'}" Stretch="UniformToFill"/>
+                                        </Border>
+                                        <StackPanel Grid.Row="1" Spacing="2.5" Margin="5, 5">
+                                            <TextBlock Text="{Binding Price, StringFormat={}{0:N0}₽}" HorizontalAlignment="Left" 
+                                                       FontSize="15" FontWeight="DemiBold" />
+                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="14"/>
+                                            <TextBlock HorizontalAlignment="Left" FontSize="14" Foreground="{StaticResource LightGrayTextColor}">
+                                                <Run Text="{Binding UnitValue}"/>
+                                                <Run Text="{Binding Unit}"/>
+                                            </TextBlock>
+                                        </StackPanel>
+                                        <Grid Row="3" Margin="0, 5, 0 ,0">
+                                            <Button CommandParameter="{Binding Id}" Classes="interactions"
+                                                    Command="{Binding $parent[UserControl].DataContext.AddProductCommand,
+                                                        RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                    IsVisible="{Binding Count, ConverterParameter='addButton', 
+                                                            Converter={StaticResource prodCountConv}}"
+                                                    Width="100">
+                                                <avalonia:MaterialIcon Kind="Plus" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </Button> 
+                                            <!--Counter Button-->
+                                            <Grid IsVisible="{Binding Count, ConverterParameter='editButton', 
+                                                  Converter={StaticResource prodCountConv}}" 
+                                                  HorizontalAlignment="Stretch">
+                                                <Button CommandParameter="{Binding Id}" Classes="interactions"
+                                                        Command="{Binding $parent[UserControl].DataContext.RemoveProductCommand,
+                                                        RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                        HorizontalAlignment="Left">
+                                                    <avalonia:MaterialIcon Kind="Minus" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                </Button>
+                                                <TextBlock Text="{Binding Count}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                <Button CommandParameter="{Binding Id}" Classes="interactions"
+                                                        Command="{Binding $parent[UserControl].DataContext.AddProductCommand,
+                                                        RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                        HorizontalAlignment="Right">
+                                                    <avalonia:MaterialIcon Kind="Plus" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                    <Button.IsEnabled>
+                                                        <MultiBinding Converter="{StaticResource prodEnabledConv}">
+                                                            <Binding Path="Count"/>
+                                                            <Binding Path="AvailableQuantity"/>
+                                                        </MultiBinding>
+                                                    </Button.IsEnabled>
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+        </DockPanel>
+        <!--~1~Bottom@1@
+        <Border Height="60" CornerRadius="25,25,0,0" BoxShadow="0 -5 10 0 #19000000" 
+                VerticalAlignment="Bottom" Background="{StaticResource BackgroundColor}">
+            <Button Classes="accentButton" Height="40" Margin="20, 0" Padding="15, 0" HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Center" Command="{Binding GoToCartCommand}">
+                <Grid>
+                    <TextBlock Text="от 490₽" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Center"/>
+                    <TextBlock Text="Заказ" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Order.Sum, StringFormat={}{0:N0}₽}" HorizontalAlignment="Right" Foreground="White" VerticalAlignment="Center"/>
+                </Grid>
+            </Button>
+        </Border>-->
+        <!--Bottom sheet-->
+        <Border x:Name="BottomSheet" Background="White" ClipToBounds="True" CornerRadius="35,35,0,0"
+                HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Opacity="0" ZIndex="1"
+                Classes.up="{Binding BottomSheetClass}" Loaded="BottomSheet_OnLoaded"
+                Classes.down="{Binding !BottomSheetClass}">
+            <Grid>
+                <!--BottomSheet.DragHandle-->
+                <Border Background="Transparent" VerticalAlignment="Top" Height="75" HorizontalAlignment="Stretch" 
+                        PointerPressed="InputElement_OnPointerPressed" ZIndex="1">
+                    <Border Height="5" Width="40" CornerRadius="15" Margin="0,10" VerticalAlignment="Top"
+                            Background="{StaticResource GrayBackgroundColor}"/>
+                </Border>
+                <!--BottomSheet.Close-->
+                <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" ZIndex="1"
+                        Command="{Binding HideBottomSheet}">
+                    <Border CornerRadius="50" Padding="10" Background="White" BoxShadow="0 0 15 0 #19000000">
+                        <avalonia:MaterialIcon Kind="Close" Width="25" Height="25" Foreground="Black"/>
+                    </Border>
+                </Button>
+                <!--BottomSheet.Body-->
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                     <StackPanel Spacing="20">
+                         <Carousel x:Name="ProductImagesCarousel" ItemsSource="{Binding ProductDetails.ProductImages}">
+                             <Carousel.PageTransition >
+                                 <CompositePageTransition>
+                                     <PageSlide Duration="0:0:0.2" Orientation="Horizontal" />
+                                 </CompositePageTransition>
+                             </Carousel.PageTransition>
+                             <Carousel.ItemTemplate>
+                                 <DataTemplate>
+                                     <Grid>
+                                         <Button x:Name="PreviousButton" HorizontalAlignment="Left" ZIndex="1"
+                                                 IsVisible="{Binding ImagePath, 
+                                                    Converter={x:Static ObjectConverters.IsNotNull}}"
+                                                 Click="PreviousButton_OnClick">
+                                             <Border ClipToBounds="True" CornerRadius="25" Background="White">
+                                                 <avalonia:MaterialIcon Kind="NavigateBefore" Height="35" Width="35"/>
+                                             </Border>
+                                         </Button>
+                                         <Border Height="400" ClipToBounds="True" Background="White"
+                                                 CornerRadius="35, 35, 0,0">
+                                             <asyncImageLoader:AdvancedImage Source="{Binding ImagePath, 
+                                                Converter={StaticResource imageNameConv},
+                                                TargetNullValue=/Assets/ProductTemp.png}" Stretch="UniformToFill"/>
+                                         </Border>
+                                         <Button x:Name="NextButton" HorizontalAlignment="Right" ZIndex="1"
+                                                 IsVisible="{Binding ImagePath, 
+                                                    Converter={x:Static ObjectConverters.IsNotNull}}"
+                                                 Click="NextButton_OnClick">
+                                             <Border ClipToBounds="True" CornerRadius="25" Background="White">
+                                                <avalonia:MaterialIcon Kind="NavigateNext" Height="35" Width="35"/>
+                                             </Border>
+                                         </Button>
+                                     </Grid>
+                                 </DataTemplate>
+                             </Carousel.ItemTemplate>
+                         </Carousel>
+                         <StackPanel Margin="15, 0" Spacing="15">
+                             <TextBlock FontWeight="DemiBold" FontSize="26" HorizontalAlignment="Left" TextWrapping="Wrap">
+                                 <Run Text="{Binding ProductDetails.Name}" />
+                                 <Run Text="{Binding ProductDetails.UnitValue}" Foreground="{StaticResource GrayTextColor}"/>
+                                 <Run Text="{Binding ProductDetails.Unit}" Foreground="{StaticResource GrayTextColor}"/>
+                             </TextBlock>
+                             <Border Classes="lines"/>
+                             <!--Carbohydrates, Proteins, and Fats-->
+                             <StackPanel Spacing="15" IsVisible="{Binding ProductDetails.Kcal, 
+                                         Converter={x:Static ObjectConverters.IsNotNull}}">
+                                 <TextBlock Text="На 100 граммов" Classes="productDetailsDemiBoldGray" />
+                                 <StackPanel Orientation="Horizontal" Spacing="15">
+                                    <!--Proteins-->
+                                     <StackPanel>
+                                         <TextBlock Text="{Binding  ProductDetails.Proteins, StringFormat={}{0} г}" 
+                                                    Classes="productDetailsDemiBold"/>
+                                         <TextBlock Text="белки" FontSize="14"/>
+                                     </StackPanel>
+                                     <!--Fats-->
+                                     <StackPanel>
+                                         <TextBlock Text="{Binding  ProductDetails.Fats, StringFormat={}{0} г}" 
+                                                    Classes="productDetailsDemiBold"/>
+                                         <TextBlock Text="жиры" FontSize="14"/>
+                                     </StackPanel>
+                                    <!--Carbohydrates-->
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding  ProductDetails.Carbohydrates, StringFormat={}{0} г}" 
+                                                   Classes="productDetailsDemiBold"/>
+                                        <TextBlock Text="углеводы" FontSize="14"/>
+                                    </StackPanel>
+                                    <!--Kcal-->
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding  ProductDetails.Kcal, StringFormat={}{0} г}" 
+                                                   Classes="productDetailsDemiBold"/>
+                                        <TextBlock Text="ккал" FontSize="14"/>
+                                    </StackPanel>
+                                 </StackPanel>
+                                 <Border Classes="lines"/>
+                             </StackPanel>
+                             <TextBlock Text="Подробнее о товаре" FontWeight="DemiBold" FontSize="16" HorizontalAlignment="Left"/>
+                             <StackPanel Spacing="5" IsVisible="{Binding ProductDetails.Composition, 
+                                         Converter={x:Static ObjectConverters.IsNotNull}}">
+                                <TextBlock Text="Состав" Classes="productDetailsDemiBoldGray"/>
+                                <TextBlock Text="{Binding ProductDetails.Composition}" Classes="productDetailsGray"/>
+                             </StackPanel>
+                             <StackPanel Spacing="5" IsVisible="{Binding ProductDetails.Description, 
+                                         Converter={x:Static ObjectConverters.IsNotNull}}">
+                                <TextBlock Text="Описание" Classes="productDetailsDemiBoldGray" />
+                                <TextBlock Text="{Binding ProductDetails.Description}" Classes="productDetailsGray" />
+                             </StackPanel>
+                             <StackPanel Spacing="5" IsVisible="{Binding ProductDetails.ExpirationDate, 
+                                         Converter={x:Static ObjectConverters.IsNotNull}}">
+                                <TextBlock Text="Срок годности" Classes="productDetailsDemiBoldGray"/>
+                                <TextBlock Text="{Binding ProductDetails.ExpirationDate, Converter={StaticResource expDateConv}}" 
+                                           Classes="productDetailsGray"/>
+                             </StackPanel>
+                             <StackPanel Spacing="5" IsVisible="{Binding ProductDetails.StorageConditions, 
+                                         Converter={x:Static ObjectConverters.IsNotNull}}">
+                                <TextBlock Text="Условия хранения" Classes="productDetailsDemiBoldGray"/>
+                                <TextBlock Text="{Binding ProductDetails.StorageConditions}" Classes="productDetailsGray"/>
+                             </StackPanel>
+                             <StackPanel Spacing="5" IsVisible="{Binding ProductDetails.Brand, 
+                                         Converter={x:Static ObjectConverters.IsNotNull}}">
+                                <TextBlock Text="Производитель" Classes="productDetailsDemiBoldGray"/>
+                                <TextBlock Text="{Binding ProductDetails.Brand}" Classes="productDetailsGray"/>
+                             </StackPanel>
+                             <StackPanel Spacing="5" IsVisible="{Binding ProductDetails.Packaging, 
+                                         Converter={x:Static ObjectConverters.IsNotNull}}">
+                                <TextBlock Text="Упаковка" Classes="productDetailsDemiBoldGray"/>
+                                <TextBlock Text="{Binding ProductDetails.Packaging}" Classes="productDetailsGray"/>
+                             </StackPanel>
+                             <Border Height="100" Background="Transparent" />
+                         </StackPanel>
+                     </StackPanel>
+                </ScrollViewer>
+                <!--BottomSheet.Bottom-->
+                <Border Height="60" CornerRadius="25,25,0,0" BoxShadow="0 -5 10 0 #19000000" ZIndex="1"
+                        VerticalAlignment="Bottom" Background="{StaticResource BackgroundColor}">
+                    <Grid Margin="15, 0">
+                        <TextBlock Text="{Binding ProductDetails.Price, StringFormat={}{0:N0}₽}" 
+                                   HorizontalAlignment="Left" FontWeight="DemiBold" FontSize="22"/>
+                        <Button Command="{Binding AddProductDetailsCommand}" Classes="interactionsDetails" Width="150"
+                                CommandParameter="{Binding ProductDetails}"
+                                IsVisible="{Binding ProductDetails.Count, ConverterParameter='addButton', 
+                                    Converter={StaticResource prodCountConv}}">
+                            <avalonia:MaterialIcon Kind="Plus" Width="25" Height="25" Foreground="White"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Button> 
+                        <!--Counter Button-->
+                        <Grid HorizontalAlignment="Right" Width="150"
+                              IsVisible="{Binding ProductDetails.Count, ConverterParameter='editButton', 
+                                  Converter={StaticResource prodCountConv}}">
+                            <Button Command="{Binding RemoveProductDetailsCommand}" Classes="interactionsDetails"
+                                    CommandParameter="{Binding ProductDetails}" Width="50"
+                                    HorizontalAlignment="Left">
+                                <avalonia:MaterialIcon Kind="Minus" Width="25" Height="25" Foreground="White"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Button>
+                            <TextBlock Text="{Binding ProductDetails.Count}" FontSize="22"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button Command="{Binding AddProductDetailsCommand}" Classes="interactionsDetails"
+                                    CommandParameter="{Binding ProductDetails}" Width="50"
+                                    HorizontalAlignment="Right">
+                                <avalonia:MaterialIcon Kind="Plus" Width="25" Height="25" Foreground="White"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Button.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource prodEnabledConv}">
+                                        <Binding Path="ProductDetails.Count"/>
+                                        <Binding Path="ProductDetails.AvailableQuantity"/>
+                                    </MultiBinding>
+                                </Button.IsEnabled>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Border>
+             </Grid>
+            <!--BottomSheet.Animation-->
+            <Border.Styles>
+                <Style Selector="Border.up">
+                    <Style.Animations>
+                        <Animation FillMode="Forward" Duration="0:0:0.5">
+                            <KeyFrame Cue="0%">
+                                <Setter Property="Margin" Value="{Binding ElementName=BottomSheet,Path=Margin}" />
+                            </KeyFrame>
+                            <KeyFrame Cue="100%">
+                                <Setter Property="Margin" Value="0,0,0,0" />
+                            </KeyFrame>
+                        </Animation>
+                    </Style.Animations>
+                </Style>
+                <Style Selector="Border.down">
+                    <Style.Animations>
+                        <Animation FillMode="Forward" Duration="0:0:0.5">
+                            <KeyFrame Cue="0%">
+                                <Setter Property="Margin" Value="{Binding ElementName=BottomSheet, Path=Margin}" />
+                            </KeyFrame>
+                            <KeyFrame Cue="100%">
+                                <Setter Property="Margin" Value="{Binding MarginBottomSheet}" />
+                            </KeyFrame>
+                        </Animation>
+                    </Style.Animations>
+                </Style>
+            </Border.Styles>
+        </Border>
+    </Grid>
+</UserControl>

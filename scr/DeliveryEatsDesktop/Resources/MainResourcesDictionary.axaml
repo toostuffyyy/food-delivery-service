@@ -1,0 +1,63 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:conv="using:desktop.Converters"
+                    xmlns:material="using:Material.Icons.Avalonia"
+                    xmlns:tools="using:desktop.Tools">
+  <!--Colors-->
+  <SolidColorBrush Color="#7992E8" x:Key="AccentColor"/>
+  <SolidColorBrush Color="#EAEAEA" x:Key="BackgroundColor"/>
+  <SolidColorBrush Color="#000000" x:Key="ForegroundColor"/>
+  <SolidColorBrush Color="#6C6C6C" x:Key="GrayTextColor"/>
+  <SolidColorBrush Color="#C6C6C6" x:Key="LinesColorBrush"/>
+  <SolidColorBrush Color="#FFFFFF" x:Key="WhiteTextColor"/>
+  <SolidColorBrush Color="#F70742" x:Key="ErrorColor"/>
+  <!--Fonts-->
+  <FontFamily x:Key="RobotoBold">avares://Assets/Fonts/Roboto-Bold.ttf</FontFamily>
+  <FontFamily x:Key="RobotoLight">avares://Assets/Fonts/Roboto-Light.ttf</FontFamily>
+  <!--Converters-->
+  <conv:ImageNameToFullNameConverter x:Key="ImageConv"/>
+  <conv:ProductStatisticToPieSeriesConverter x:Key="ProductConv"/>
+  <conv:RelativeFrequenciesToColumnSeriesConverter x:Key="ColumnSeriesConv"/>
+  <conv:AccumulatedToCartesianSeriesConverter x:Key="CartesianSeriesConv"/>
+  <conv:CharToBoolConverter x:Key="CharToBoolConv"/>
+  <!--Filter Template-->
+  <DataTemplate x:Key="filterCategoryTemplate" DataType="tools:FilterCategory">
+      <StackPanel Spacing="10" Orientation="Vertical">
+          <TextBlock Text="{Binding NameCategory}" Foreground="{StaticResource GrayTextColor}" FontWeight="Bold"/>
+          <ItemsControl ItemsSource="{Binding Filters}" 
+                        ItemTemplate="{StaticResource filterTemplate}">
+              <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                      <WrapPanel Orientation="Horizontal"/>
+                  </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+          </ItemsControl>
+      </StackPanel>
+  </DataTemplate>
+  <DataTemplate x:Key="filterTemplate" DataType="tools:Filter">
+      <CheckBox Margin="0,0,10,0" Classes="filter" IsChecked="{Binding IsPick}" Content="{Binding NameFilter}"/>
+  </DataTemplate>
+  <!--Sorting Template-->
+  <DataTemplate x:Key="sortTemplate" DataType="tools:SortElement">
+      <DockPanel>
+          <CheckBox Classes="sorting" IsChecked="{Binding IsSelected}">
+              <CheckBox.Content>
+                  <DockPanel>
+                      <ToggleButton Classes="sorting" 
+                                    x:Name="dirBtn"
+                                    Width="30"
+                                    Height="30"
+                                    IsEnabled="{Binding IsSelected}" 
+                                    IsChecked="{Binding Sorting.Direction}">
+                          <Grid>
+                              <material:MaterialIcon Kind="SortAscending" IsVisible="{Binding !#dirBtn.IsChecked}"/>
+                              <material:MaterialIcon Kind="SortDescending" IsVisible="{Binding #dirBtn.IsChecked}"/>
+                          </Grid>
+                      </ToggleButton>
+                      <TextBlock VerticalAlignment="Center" Text="{Binding NameSort}"/>
+                  </DockPanel>
+              </CheckBox.Content>
+          </CheckBox>
+      </DockPanel>
+  </DataTemplate>
+</ResourceDictionary>
